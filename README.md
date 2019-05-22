@@ -1,4 +1,4 @@
-# SmartBorneUi
+# SmartBorne API
 
 ## Structure du projet
 Exemple :
