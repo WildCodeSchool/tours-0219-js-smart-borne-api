@@ -4,7 +4,7 @@ import {BorneModule} from "./borne/borne.module";
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://jocelyn:Jocelynsimba-4537@clustergame-lefzw.mongodb.net/smart-borne?retryWrites=true',
+    MongooseModule.forRoot('mongodb+srv://jocelyn:<pass>@clustergame-lefzw.mongodb.net/smart-borne?retryWrites=true',
       {useNewUrlParser: true, useFindAndModify: false}),
     BorneModule
   ],
