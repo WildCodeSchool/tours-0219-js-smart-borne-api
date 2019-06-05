@@ -1,14 +1,29 @@
 export interface Client{
-    siret: number;
-    raisonSocial: string;
-    name: string;
-    ville: string;
-    debutContrat: string;
-    finContrat: string;
-    address: string;
-    emailSiege: string;
-    emailGerant: string;
-    telephoneSiege: number;
-    telephoneGerrant: number;
-    nombreTotalCouponImprimes: number;
+        name: String,
+        siret: String,
+        raisonSocial: String,
+        address: {
+            numero: String,
+            nomRue: String,
+            departement: String,
+            ville: String,
+        },
+        contrat: {
+            debut: String,
+            fin: String,
+        },
+        siege: {
+            email: String,
+            telephone: String,
+        },
+        gerant: {
+            name: String,
+            email: String;
+            telephone: String,
+        },
+        coupon:{
+            total: Number,
+            imprimer: Number,
+            restant: Number,
+        }
 }

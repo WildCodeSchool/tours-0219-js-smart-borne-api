@@ -1,16 +1,31 @@
 import * as mongoose from 'mongoose';
 
 export const ClientSchema = new mongoose.Schema({
-    siret: Number,
-    raisonSocial: String,
     name: String,
-    ville: String,
-    debutContrat: String,
-    finContrat: String,
-    address: String,
-    emailSiege: String,
-    emailGerant: String,
-    telephoneSiege: Number,
-    telephoneGerrant: Number,
-    nombreTotalCouponImprimes: Number
+    siret: String,
+    raisonSocial: String,
+    address: {
+        numero: String,
+        nomRue: String,
+        departement: String,
+        ville: String,
+    },
+    contrat: {
+        debut: String,
+        fin: String,
+    },
+    siege: {
+        email: String,
+        telephone: String,
+    },
+    gerant: {
+        name: String,
+        email: String,
+        telephone: String,
+    },
+    coupon: {
+        total: Number,
+        imprimer: Number,
+        restant: Number
+    }
 })
