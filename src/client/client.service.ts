@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Client } from './client.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose'
@@ -12,16 +12,28 @@ export class ClientService {
         return await this.clientModel.find();
     }
     async findOne(id: string): Promise<Client> {
-        return await this.clientModel.findOne({_id: id})
+        const client =  await this.clientModel.findOne({_id: id})
+        if(!client) {
+            throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+        }
+        return client;
     }
     async create(client: CreateClientDto): Promise<Client> {
         const newClient = new this.clientModel(client);
         return await newClient.save();
     }
     async delete(id: string): Promise<Client> {
-        return await this.clientModel.findByIdAndRemove(id);
+        const client = await this.clientModel.findByIdAndRemove(id);
+        if(!client){
+            throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+        }
+        return client;
     }
-    async update(id: string, client: UpdateClientDto): Promise<Client> {
-        return await this.clientModel.findByIdAndUpdate(id, client, {new: true} )
+    async update(id: string, updateclient: UpdateClientDto): Promise<Client> {
+        const client = await this.clientModel.findByIdAndUpdate(id, updateclient, {new: true} )
+        if(!client) {
+            throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+        }
+        return client;
     }
 }
