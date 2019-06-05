@@ -1,12 +1,14 @@
 import * as mongoose from "mongoose";
 
 export const OfferSchema = new mongoose.Schema({
-  id: Number,
+  id: String,
   client: String,
-  remise: Number,
-  debutOffre: Date,
-  couponsRestants: Number,
-  couponsImprimés: Number,
-  totalRemisé: Number,
+  remise: String,
+  debutOffre: String,
+  coupons: {
+    Restants: String,
+    Imprimés: String
+  },
+  totalRemisé: String,
   details: String
 });
