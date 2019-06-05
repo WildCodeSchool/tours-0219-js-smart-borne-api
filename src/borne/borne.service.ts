@@ -1,36 +1,49 @@
-import {Injectable, Param} from '@nestjs/common';
-import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
-import {ObjectId} from 'mongodb';
-import {Borne} from "./interfaces/borne.interface";
-import {CreateBorneDto} from "./dto/create-borne.dto";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { ObjectId } from 'mongodb';
+import { Borne } from './interfaces/borne.interface';
+import { CreateBorneDto } from './dto/create-borne.dto';
+import { UpdateBorneDto } from './dto/update-borne.dto';
 
 @Injectable()
 export class BorneService {
   constructor(
-    @InjectModel('bornes') private readonly borneModel: Model<Borne>
+    @InjectModel('bornes') private readonly borneModel: Model<Borne>,
   ) {
   }
 
-  public async findAll(): Promise<Borne[]> {
+  async findAll(): Promise<Borne[]> {
     return await this.borneModel.find();
   }
 
-  public async findOne(id): Promise<Borne> {
-    return await this.borneModel.findOne({_id: new ObjectId(id)});
+  async findOne(id: string): Promise<Borne> {
+    const borne = await this.borneModel.findOne({ _id: new ObjectId(id) });
+    if (!borne) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return borne;
   }
 
-  public async create(borneData: CreateBorneDto): Promise<Borne> {
-    const cards = new (this.borneModel)(borneData);
-    return await cards.save();
+  async create(borneData: CreateBorneDto): Promise<Borne> {
+    const bornes = new (this.borneModel)(borneData);
+    return await bornes.save();
   }
 
-  public async update(@Param('id') id: string, borneData: any): Promise<Borne> {
-    return await this.borneModel.findByIdAndUpdate(id, borneData);
+  async update(id: string, borneData: UpdateBorneDto): Promise<Borne> {
+    const borne = await this.borneModel.findByIdAndUpdate(id, borneData);
+    if (!borne) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return borne;
   }
 
-  public async delete(id: string): Promise<Borne> {
-    return await this.borneModel.findByIdAndRemove({id: id});
+  async delete(id: string): Promise<Borne> {
+    const borne = await this.borneModel.findByIdAndRemove({ id });
+    if (!borne) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return borne;
   }
 
 }

@@ -2,21 +2,32 @@ import * as mongoose from 'mongoose';
 
 export const borneSchema = new mongoose.Schema({
   ville: String,
-  numerodeSerie: String,
+  numeroSerie: String,
   raisonSociale: String,
-  numeroEtNomDeRue: String,
+  address: {
+    numero: String,
+    rue: String,
+    ville: String,
+    codePostal: String,
+  },
+  taux: {
+    bacUn: Number,
+    bacDeux: Number,
+  },
   dateInstallation: String,
-  tauxDeRemplissage1erBac: Number,
-  tauxDeRemplissage2emeBac: Number,
-  nombreDeCouponsRestant: Number,
-  nombreDeCouponsImprimesDepuisInstallation: Number,
-  totalRecycleDepuisInstallation: Number,
-  totalRemiseDepuisInstallation: Number,
-  totalCannettesRecycleesDepuisInstallation: Number,
-  totalPlastiquesRecyclesDepuisInstallation: Number,
+  coupons: {
+    restant: Number,
+    imprimer: Number,
+  },
+  total: {
+    recycle: Number,
+    remise: Number,
+    cannettes: Number,
+    plastique: Number,
+  },
   problemesTechniques: String,
   styliseeClient: String,
-  detailsSupplementaires: String,
-}, {
-  versionKey: false
+  details: String,
+},                                             {
+  versionKey: false,
 });

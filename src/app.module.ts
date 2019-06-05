@@ -1,12 +1,14 @@
-import {Module} from '@nestjs/common';
-import {MongooseModule} from '@nestjs/mongoose';
-import {BorneModule} from "./borne/borne.module";
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { BorneModule } from './borne/borne.module';
+require('dotenv').config();
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://jocelyn:Jocelynsimba-4537@clustergame-lefzw.mongodb.net/smart-borne?retryWrites=true',
-      {useNewUrlParser: true, useFindAndModify: false}),
-    BorneModule
+    MongooseModule.forRoot(
+        process.env.MONGOO,
+        { useNewUrlParser: true, useFindAndModify: false }),
+    BorneModule,
   ],
   controllers: [],
   providers: [],

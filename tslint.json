@@ -1,6 +1,6 @@
 {
   "extends": [
-    // "tslint-config-airbnb"
+     "tslint-config-airbnb"
   ],
   "linterOptions": {
     "exclude": [
