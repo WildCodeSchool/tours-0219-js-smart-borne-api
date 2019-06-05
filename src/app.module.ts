@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BorneModule } from './borne/borne.module';
-require('dotenv').config();
 
 @Module({
   imports: [
