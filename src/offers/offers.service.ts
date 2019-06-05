@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { Offer } from "./interfaces/offers.interface";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
@@ -7,14 +7,18 @@ import { InjectModel } from "@nestjs/mongoose";
 export class OffersService {
   constructor(
     @InjectModel("Offer") private readonly offerModel: Model<Offer>
-  ) {}
+  ) { }
 
   async findAll(): Promise<Offer[]> {
     return await this.offerModel.find();
   }
 
   async findOne(id: string): Promise<Offer> {
-    return await this.offerModel.findOne({ _id: id });
+    const offer = await this.offerModel.findOne({ _id: id });
+    if (!offer) {
+      throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
+    }
+    return offer;
   }
 
   async create(offer: Offer): Promise<Offer> {
@@ -23,10 +27,18 @@ export class OffersService {
   }
 
   async delete(id: string): Promise<Offer> {
-    return await this.offerModel.findByIdAndRemove(id);
+    const offer =  await this.offerModel.findByIdAndRemove(id);
+    if (!offer) {
+      throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
+    }
+    return offer;
   }
 
   async update(id: string, offer: Offer): Promise<Offer> {
-    return await this.offerModel.findByIdAndUpdate(id, offer, { new: true });
+    const offerUpdate = await this.offerModel.findByIdAndUpdate(id, offer, { new: true });
+    if (!offer) {
+      throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
+    }
+    return offerUpdate;
   }
 }
