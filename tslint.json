@@ -3,9 +3,6 @@
      "tslint-config-airbnb"
   ],
   "linterOptions": {
-    "exclude": [
-      "**/src/polyfills.ts",
-      "**/**.spec.**"
-    ]
+    "exclude": ["**/src/polyfills.ts", "**/**.spec.**"]
   }
 }
