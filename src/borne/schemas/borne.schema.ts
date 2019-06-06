@@ -3,7 +3,6 @@ import * as mongoose from 'mongoose';
 export const borneSchema = new mongoose.Schema({
   ville: String,
   numeroSerie: String,
-  raisonSociale: String,
   address: {
     numero: String,
     rue: String,

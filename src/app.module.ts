@@ -6,7 +6,7 @@ require('dotenv').config();
 @Module({
   imports: [
     MongooseModule.forRoot(
-        process.env.MONGOO,
+        process.env.MONGOO || 'localhost',
         { useNewUrlParser: true, useFindAndModify: false }),
     BorneModule,
   ],
