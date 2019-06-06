@@ -1,5 +1,4 @@
 export class CreateBorneDto {
-  readonly ville: string;
   readonly numeroSerie: string;
   readonly address: {
     readonly numero: string,

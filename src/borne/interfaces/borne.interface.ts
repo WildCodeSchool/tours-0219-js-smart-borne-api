@@ -1,7 +1,6 @@
 import { Document } from 'mongoose';
 
 export interface Borne extends Document{
-  ville: String;
   numeroSerie: String;
   address: {
     numero: String,
