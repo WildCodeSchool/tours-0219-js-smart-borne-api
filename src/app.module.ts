@@ -3,9 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OffersModule } from './offers/offers.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import config from './config/keys'
 @Module({
-  imports: [OffersModule, MongooseModule.forRoot(config.mongoURI)],
+  imports: [OffersModule, MongooseModule.forRoot(
+// tslint:disable-next-line: max-line-length
+    'mongodb + srv://Cyprien:Cyprien321!@smartborneapitest-9euks.mongodb.net/test?retryWrites=true&w=majority',
+  )],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,12 +1,12 @@
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
-import { Offer } from "./interfaces/offers.interface";
-import { Model } from "mongoose";
-import { InjectModel } from "@nestjs/mongoose";
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Offer } from './interfaces/offers.interface';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class OffersService {
   constructor(
-    @InjectModel("Offer") private readonly offerModel: Model<Offer>
+    @InjectModel('Offer') private readonly offerModel: Model<Offer>,
   ) { }
 
   async findAll(): Promise<Offer[]> {

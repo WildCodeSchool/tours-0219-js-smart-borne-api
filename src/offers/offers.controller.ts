@@ -5,15 +5,15 @@ import {
   Put,
   Delete,
   Body,
-  Param
-} from "@nestjs/common";
-import { CreateOfferDto } from "./DTO/create-offer.dto";
-import { Offer } from "./interfaces/offers.interface";
-import { OffersService } from "./offers.service";
+  Param,
+} from '@nestjs/common';
+import { CreateOfferDto } from './DTO/create-offer.dto';
+import { Offer } from './interfaces/offers.interface';
+import { OffersService } from './offers.service';
 
-@Controller("offers")
+@Controller('offers')
 export class OffersController {
-  constructor(private readonly offersService: OffersService) { }
+  constructor(private readonly offersService: OffersService) {}
 
   @Get()
   async findAll(): Promise<Offer[]> {
@@ -25,18 +25,18 @@ export class OffersController {
     return this.offersService.create(createOfferDto);
   }
 
-  @Get(":id")
-  findOne(@Param("id") id): Promise<Offer> {
+  @Get(':id')
+  findOne(@Param('id') id): Promise<Offer> {
     return this.offersService.findOne(id);
   }
 
-  @Delete(":id")
-  delete(@Param("id") id): Promise<Offer> {
+  @Delete(':id')
+  delete(@Param('id') id): Promise<Offer> {
     return this.offersService.delete(id);
   }
 
-  @Put(":id")
-  update(@Body() updateOfferDto: CreateOfferDto, @Param("id") id): Promise<Offer> {
-    return this.offersService.update(id, updateOfferDto)
+  @Put(':id')
+  update(@Body() updateOfferDto: CreateOfferDto, @Param('id') id): Promise<Offer> {
+    return this.offersService.update(id, updateOfferDto);
   }
 }
