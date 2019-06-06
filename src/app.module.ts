@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { BorneModule } from './borne/borne.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ClientModule } from './client/client.module';
 
 @Module({
   imports: [
@@ -8,6 +9,7 @@ import { BorneModule } from './borne/borne.module';
         process.env.MONGOO || 'localhost',
         { useNewUrlParser: true, useFindAndModify: false }),
     BorneModule,
+    ClientModule
   ],
   controllers: [],
   providers: [],
