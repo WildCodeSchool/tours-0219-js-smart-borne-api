@@ -1,7 +1,5 @@
 export class UpdateBorneDto {
-  readonly ville: String;
   readonly numeroSerie: String;
-  readonly raisonSociale: String;
   readonly address: {
     readonly numero: String,
     readonly rue: String,

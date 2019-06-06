@@ -5,7 +5,7 @@ import { BorneModule } from './borne/borne.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-        process.env.MONGOO,
+        process.env.MONGOO || 'localhost',
         { useNewUrlParser: true, useFindAndModify: false }),
     BorneModule,
   ],
