@@ -1,3 +1,47 @@
+import { IsInt, Min, Max, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+
+class Taux {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly bacUn: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly bacDeux: number = 0;
+}
+
+class Coupon {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly restant: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly imprimer: number = 0;
+}
+
+class Total {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly recycle: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly remise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly cannettes: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly plastique: number = 0;
+}
+
 export class CreateBorneDto {
   readonly numeroSerie: string;
   readonly address: {
@@ -6,21 +50,17 @@ export class CreateBorneDto {
     readonly ville: string,
     readonly codePostal: string,
   };
-  readonly taux: {
-    readonly bacUn: string,
-    readonly bacDeux: string,
-  };
+  @Type(() => Taux)
+  @ValidateNested()
+  readonly taux: Taux;
   readonly dateInstallation: string;
-  readonly coupons: {
-    readonly restant: string,
-    readonly imprimer: string,
-  };
-  readonly total: {
-    readonly recycle: string,
-    readonly remise: string,
-    readonly cannettes: string,
-    readonly plastique: string,
-  };
+  @Type(() => Coupon)
+  @ValidateNested()
+  readonly coupons: Coupon;
+
+  @Type(() => Total)
+  @ValidateNested()
+  readonly total: Total;
   readonly problemesTechniques: string;
   readonly styliseeClient: string;
   readonly details: string;
