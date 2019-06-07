@@ -2,11 +2,11 @@ export class CreateOfferDto {
   readonly id: string;
   readonly client: string;
   readonly remise: string;
-  readonly débutOffre: string;
+  readonly debutOffre: string;
   readonly coupons: {
-    readonly Restants: string;
-    readonly Imprimés: string;
+    readonly restants: string;
+    readonly imprimes: string;
   };
-  readonly totalRemisé: string;
-  readonly détails: string;
+  readonly totalRemise: string;
+  readonly details: string;
 }

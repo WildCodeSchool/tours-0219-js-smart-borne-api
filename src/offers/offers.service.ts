@@ -2,6 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Offer } from './interfaces/offers.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { CreateOfferDto } from './DTO/create-offer.dto';
 
 @Injectable()
 export class OffersService {
@@ -21,8 +22,8 @@ export class OffersService {
     return offer;
   }
 
-  async create(offer: Offer): Promise<Offer> {
-    const newOffer = new this.offerModel(offer);
+  async create(offerData: CreateOfferDto): Promise<Offer> {
+    const newOffer = new this.offerModel(offerData);
     return await newOffer.save();
   }
 
@@ -34,9 +35,9 @@ export class OffersService {
     return offer;
   }
 
-  async update(id: string, offer: Offer): Promise<Offer> {
-    const offerUpdate = await this.offerModel.findByIdAndUpdate(id, offer, { new: true });
-    if (!offer) {
+  async update(id: string, offerData: CreateOfferDto): Promise<Offer> {
+    const offerUpdate = await this.offerModel.findByIdAndUpdate(id, offerData, { new: true });
+    if (!offerData) {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
     }
     return offerUpdate;

@@ -21,22 +21,22 @@ export class OffersController {
   }
 
   @Post()
-  create(@Body() createOfferDto: CreateOfferDto): Promise<Offer> {
+  async create(@Body() createOfferDto: CreateOfferDto): Promise<Offer> {
     return this.offersService.create(createOfferDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id): Promise<Offer> {
+  async findOne(@Param('id') id): Promise<Offer> {
     return this.offersService.findOne(id);
   }
 
   @Delete(':id')
-  delete(@Param('id') id): Promise<Offer> {
+  async delete(@Param('id') id): Promise<Offer> {
     return this.offersService.delete(id);
   }
 
   @Put(':id')
-  update(@Body() updateOfferDto: CreateOfferDto, @Param('id') id): Promise<Offer> {
-    return this.offersService.update(id, updateOfferDto);
+  async update(@Body() createOfferDto: CreateOfferDto, @Param('id') id): Promise<Offer> {
+    return this.offersService.update(id, createOfferDto);
   }
 }

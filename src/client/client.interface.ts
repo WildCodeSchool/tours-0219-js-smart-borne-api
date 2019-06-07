@@ -1,4 +1,6 @@
-export interface Client{
+import { Document } from 'mongoose';
+
+export interface Client extends Document {
   name: String;
   siret: String;
   raisonSocial: String;

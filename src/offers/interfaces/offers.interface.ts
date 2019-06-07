@@ -1,12 +1,14 @@
-export interface Offer {
+import { Document } from 'mongoose';
+
+export interface Offer extends Document {
   id: String;
   client: String;
   remise: String;
-  débutOffre: String;
+  debutOffre: String;
   coupons: {
-    Restants: String,
-    Imprimés: String,
+    restants: String,
+    imprimes: String,
   };
-  totalRemisé: String;
-  détails: String;
+  totalRemise: String;
+  details: String;
 }

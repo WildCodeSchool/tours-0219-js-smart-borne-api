@@ -3,6 +3,7 @@ import { BorneModule } from './borne/borne.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ClientModule } from './client/client.module';
 import { OffersModule } from './offers/offers.module';
+require('dotenv').config();
 
 @Module({
   imports: [

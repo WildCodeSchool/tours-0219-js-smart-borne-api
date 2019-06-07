@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+  require('dotenv').config();
   const appOptions = { cors: true };
   const app = await NestFactory.create(AppModule, appOptions);
   app.setGlobalPrefix('api');

@@ -7,8 +7,8 @@ export const offerSchema = new mongoose.Schema({
   debutOffre: String,
   coupons: {
     restants: String,
-    imprimés: String,
+    imprimes: String,
   },
-  totalRemisé: String,
+  totalRemise: String,
   details: String,
 });

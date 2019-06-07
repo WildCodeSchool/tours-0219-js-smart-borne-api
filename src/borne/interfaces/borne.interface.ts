@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-export interface Borne extends Document{
+export interface Borne extends Document {
   numeroSerie: String;
   address: {
     numero: String,
