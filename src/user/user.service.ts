@@ -23,7 +23,6 @@ export class UserService {
 
   async create(user: CreateUserDto): Promise<User> {
     user.password = await this.getHash(user.password);
-    user.role = 'USER';
     const result = await this.userModel.create(user);
     delete result.password;
     return result;
