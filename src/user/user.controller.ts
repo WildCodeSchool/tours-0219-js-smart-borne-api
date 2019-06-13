@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from './interfaces/user.interface';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UserController {
 

@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { CreateClientDto } from './client.dto.create';
 import { UpdateClientDto } from './client.dto.update';
 import { ClientService } from './client.service';
 import { Client } from './client.interface';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('client')
 export class ClientController {
 

@@ -1,9 +1,11 @@
-import { Get, Post, Body, Put, Delete, Param, Controller } from '@nestjs/common';
+import { Get, Post, Body, Put, Delete, Param, Controller, UseGuards } from '@nestjs/common';
 import { BorneService } from './borne.service';
 import { CreateBorneDto } from './dto/create-borne.dto';
 import { UpdateBorneDto } from './dto/update-borne.dto';
 import { Borne } from './interfaces/borne.interface';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('bornes')
 export class BorneController {
 

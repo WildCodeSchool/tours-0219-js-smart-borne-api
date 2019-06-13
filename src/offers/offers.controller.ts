@@ -5,12 +5,14 @@ import {
   Put,
   Delete,
   Body,
-  Param,
+  Param, UseGuards,
 } from '@nestjs/common';
 import { CreateOfferDto } from './DTO/create-offer.dto';
 import { Offer } from './interfaces/offers.interface';
 import { OffersService } from './offers.service';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('offers')
 export class OffersController {
   constructor(private readonly offersService: OffersService) {}
