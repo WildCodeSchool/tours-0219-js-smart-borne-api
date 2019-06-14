@@ -1,5 +1,4 @@
 export class CreateOfferDto {
-  readonly id: string;
   readonly client: string;
   readonly remise: string;
   readonly debutOffre: string;

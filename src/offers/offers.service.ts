@@ -3,7 +3,8 @@ import { Offer } from './interfaces/offers.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateOfferDto } from './DTO/create-offer.dto';
-
+import { UpdateOfferDto } from './DTO/update-offer.DTO';
+import { ObjectId } from 'mongodb';
 @Injectable()
 export class OffersService {
   constructor(
@@ -15,7 +16,7 @@ export class OffersService {
   }
 
   async findOne(id: string): Promise<Offer> {
-    const offer = await this.offerModel.findOne({ _id: id });
+    const offer = await this.offerModel.findOne({ _id: new ObjectId(id) });
     if (!offer) {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -35,7 +36,7 @@ export class OffersService {
     return offer;
   }
 
-  async update(id: string, offerData: CreateOfferDto): Promise<Offer> {
+  async update(id: string, offerData: UpdateOfferDto): Promise<Offer> {
     const offerUpdate = await this.offerModel.findByIdAndUpdate(id, offerData, { new: true });
     if (!offerData) {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);

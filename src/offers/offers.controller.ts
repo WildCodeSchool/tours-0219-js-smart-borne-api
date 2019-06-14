@@ -10,6 +10,7 @@ import {
 import { CreateOfferDto } from './DTO/create-offer.dto';
 import { Offer } from './interfaces/offers.interface';
 import { OffersService } from './offers.service';
+import { UpdateOfferDto } from './DTO/update-offer.DTO';
 
 @Controller('offres')
 export class OffersController {
@@ -36,7 +37,7 @@ export class OffersController {
   }
 
   @Put(':id')
-  async update(@Body() createOfferDto: CreateOfferDto, @Param('id') id): Promise<Offer> {
-    return this.offersService.update(id, createOfferDto);
+  async update(@Body() updateOfferDto: UpdateOfferDto, @Param('id') id): Promise<Offer> {
+    return this.offersService.update(id, updateOfferDto);
   }
 }
