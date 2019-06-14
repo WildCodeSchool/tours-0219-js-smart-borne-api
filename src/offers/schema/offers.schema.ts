@@ -5,10 +5,8 @@ export const offerSchema = new mongoose.Schema({
   client: String,
   remise: String,
   debutOffre: String,
-  coupons: {
-    restants: String,
-    imprimes: String,
-  },
+  couponsRestants: Number,
+  couponsImprimes: Number,
   totalRemise: String,
   details: String,
 });

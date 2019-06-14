@@ -3,10 +3,8 @@ export class CreateOfferDto {
   readonly client: string;
   readonly remise: string;
   readonly debutOffre: string;
-  readonly coupons: {
-    readonly restants: string;
-    readonly imprimes: string;
-  };
+  readonly couponsRestants: number;
+  readonly couponsImprimes: number;
   readonly totalRemise: string;
   readonly details: string;
 }

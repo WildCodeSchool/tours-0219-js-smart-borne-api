@@ -11,7 +11,7 @@ import { CreateOfferDto } from './DTO/create-offer.dto';
 import { Offer } from './interfaces/offers.interface';
 import { OffersService } from './offers.service';
 
-@Controller('offers')
+@Controller('offres')
 export class OffersController {
   constructor(private readonly offersService: OffersService) {}
 
