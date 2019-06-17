@@ -14,7 +14,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
   async validate(payload: JwtPayload) {
+    // ces ici qu'on va recuperer les valeur de la personne
     const user = await this.authService.validateUser(payload);
+    // console.log(user);
     if (!user) {
       throw new UnauthorizedException();
     }

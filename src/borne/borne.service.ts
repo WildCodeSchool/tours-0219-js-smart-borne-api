@@ -1,15 +1,20 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { Borne } from './interfaces/borne.interface';
 import { CreateBorneDto } from './dto/create-borne.dto';
 import { UpdateBorneDto } from './dto/update-borne.dto';
+import { AuthService } from '../auth/auth.service';
+import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 
 @Injectable()
 export class BorneService {
+  private readonly authService: AuthService;
+
   constructor(
-    @InjectModel('bornes') private readonly borneModel: Model<Borne>,
+    @InjectModel('bornes')
+    private readonly borneModel: Model<Borne>,
   ) {
   }
 
@@ -39,7 +44,12 @@ export class BorneService {
   }
 
   async delete(id: string): Promise<Borne> {
-    const borne = await this.borneModel.findByIdAndRemove({ id });
+    // recupere les valeur de la personne connecter et verifier son role avant de suprimer
+    // console.log(this.validate({ email: 'mame@gmail.com', password: 'mamemame' }));
+    // if (user.role === 'ADMINISTRATEUR') {}
+    // console.log(this.authService.validateUser(
+    // { email: 'mame@gmail.com', password: 'mamemame' }));
+    const borne = await this.borneModel.findByIdAndRemove({ _id: new ObjectId(id) });
     if (!borne) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
