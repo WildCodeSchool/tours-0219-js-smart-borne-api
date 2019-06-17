@@ -28,7 +28,10 @@ export class AuthService {
         throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
       }
 
-      const users: JwtPayload = { email: userData.email, password: userData.password };
+      const users: JwtPayload = {
+        email: userData.email,
+        password: userData.password,
+        role: userData.role };
       const accessToken = this.jwtService.sign(users);
 
       return {

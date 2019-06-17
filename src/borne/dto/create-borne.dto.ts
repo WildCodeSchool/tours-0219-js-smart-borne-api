@@ -1,4 +1,4 @@
-import { IsInt, Min, Max, ValidateNested } from 'class-validator';
+import { IsInt, Min, Max, ValidateNested, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class Taux {
@@ -61,7 +61,9 @@ class Total {
 }
 
 export class CreateBorneDto {
+  @IsNotEmpty()
   readonly numeroSerie: string;
+  @IsNotEmpty()
   readonly address: {
     readonly numero: string,
     readonly rue: string,
@@ -79,8 +81,9 @@ export class CreateBorneDto {
   @Type(() => Taux)
   @ValidateNested()
   readonly taux: Taux;
+  @IsNotEmpty()
   readonly dateInstallation: string;
-  
+
   @Type(() => Coupon)
   @ValidateNested()
   readonly coupon: Coupon;
