@@ -22,6 +22,27 @@ class Coupon {
   @Max(0)
   readonly imprimer: number = 0;
 }
+class Plastique {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly utilise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly total: number = 0;
+}
+
+class Cannette {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly utilise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly total: number = 0;
+}
 
 class Total {
   @IsInt()
@@ -36,10 +57,7 @@ class Total {
   @Min(0)
   @Max(0)
   readonly cannettes: number = 0;
-  @IsInt()
-  @Min(0)
-  @Max(0)
-  readonly plastique: number = 0;
+
 }
 
 export class CreateBorneDto {
@@ -50,13 +68,22 @@ export class CreateBorneDto {
     readonly ville: string,
     readonly codePostal: string,
   };
+  @Type(() => Plastique)
+  @ValidateNested()
+  readonly plastique: Plastique;
+
+  @Type(() => Cannette)
+  @ValidateNested()
+  readonly cannette: Cannette;
+
   @Type(() => Taux)
   @ValidateNested()
   readonly taux: Taux;
   readonly dateInstallation: string;
+  
   @Type(() => Coupon)
   @ValidateNested()
-  readonly coupons: Coupon;
+  readonly coupon: Coupon;
 
   @Type(() => Total)
   @ValidateNested()

@@ -13,15 +13,22 @@ export interface Borne extends Document {
     bacDeux: Number,
   };
   dateInstallation: String;
-  coupons: {
+  coupon: {
     restant: Number,
     imprimer: Number,
   };
+  plastique: {
+    utilise: Number,
+    total: Number,
+  },
+  cannette: {
+    utilise: Number,
+    total: Number,
+  }
   total: {
     recycle: Number,
     remise: Number,
     cannettes: Number,
-    plastique: Number,
   };
   problemesTechniques: String;
   styliseeClient: String;

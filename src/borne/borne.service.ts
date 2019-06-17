@@ -39,7 +39,7 @@ export class BorneService {
   }
 
   async delete(id: string): Promise<Borne> {
-    const borne = await this.borneModel.findByIdAndRemove({ id });
+    const borne = await this.borneModel.findByIdAndRemove({ _id: new ObjectId(id) });
     if (!borne) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }

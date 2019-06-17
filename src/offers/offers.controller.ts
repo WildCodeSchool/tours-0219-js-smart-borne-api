@@ -13,7 +13,7 @@ import { OffersService } from './offers.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @UseGuards(AuthGuard('jwt'))
-@Controller('offers')
+@Controller('offer')
 export class OffersController {
   constructor(private readonly offersService: OffersService) {}
 
