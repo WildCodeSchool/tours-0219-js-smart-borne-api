@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateClientDto } from './client.dto.create';
 import { UpdateClientDto } from './client.dto.update';
+import { ObjectId } from 'mongodb';
 @Injectable()
 export class ClientService {
   constructor(@InjectModel('Client') private readonly clientModel: Model<Client>) { }
@@ -12,7 +13,7 @@ export class ClientService {
     return await this.clientModel.find();
   }
   async findOne(id: string): Promise<Client> {
-    const client = await this.clientModel.findOne({ _id: id });
+    const client = await this.clientModel.findOne({ _id: new ObjectId(id) });
     if (!client) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     }
