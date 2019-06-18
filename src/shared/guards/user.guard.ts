@@ -1,0 +1,70 @@
+import { JwtService } from '@nestjs/jwt';
+import {
+  Injectable, CanActivate, ExecutionContext,
+  BadRequestException, UnauthorizedException, Optional, NotFoundException,
+} from '@nestjs/common';
+import { Observable } from 'rxjs';
+
+/**
+ * Guard for checking if authenticated user is allow to accessing route
+ */
+@Injectable()
+export class AuthParamsIdGuard implements CanActivate {
+
+  /**
+   * Constructor of AuthParamsIdGuard
+   * If no 'parameterName'is specified use GUARD_PARAMETER_NAME environment variable
+   * @param jwtService JwtService to decode JWT from HTTP header
+   * @param parameterName Name of route parameter
+   */
+  constructor(private jwtService: JwtService, @Optional() private parameterName: string) {
+    if (!this.parameterName) {
+      if (!process.env.GUARD_PARAMETER_NAME) {
+        throw new Error('No parameter name specify');
+      }
+      this.parameterName = process.env.GUARD_PARAMETER_NAME;
+    }
+    if (this.parameterName.startsWith(':')) {
+      throw new Error('Parameter name cannot start with ":" ');
+    }
+
+  }
+
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
+    // Get HTTP request
+    const request = context.switchToHttp().getRequest();
+    // Extract parameter from route
+    const routeParam = request.params[this.parameterName];
+    // Extract authorization from HTTP header
+    const headers = request.headers.authorization;
+
+    if (!routeParam) {
+      throw new BadRequestException();
+    }
+
+    // Check if header exists
+    if (!headers) {
+      throw new UnauthorizedException();
+    }
+
+    // Split bearer and token
+    const authorization = headers.split(' ');
+
+    // Check authorization header
+    if (authorization || authorization.length < 2 || authorization.length > 2) {
+      throw new UnauthorizedException();
+    }
+
+    // Decode token parts of array
+    const token = this.jwtService.decode(authorization[1], { json: true }) as any;
+
+    // Check if route param match user authenticated id
+    if (token.id !== routeParam) {
+      throw new NotFoundException();
+    }
+
+    return true;
+  }
+}

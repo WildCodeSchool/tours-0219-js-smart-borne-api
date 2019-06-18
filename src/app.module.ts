@@ -6,6 +6,8 @@ import { OffersModule } from './offers/offers.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ProfileModule } from './profile/profile.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthParamsIdGuard } from './shared/guards/user.guard';
 require('dotenv').config();
 
 @Module({
@@ -21,7 +23,12 @@ require('dotenv').config();
     ProfileModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthParamsIdGuard,
+    },
+  ],
 })
 export class AppModule {
 }
