@@ -10,9 +10,11 @@ import { Observable } from 'rxjs';
  */
 @Injectable()
 export class AuthParamsIdGuard implements CanActivate {
+  jwtUserParameterName: string;
 
   /**
    * Constructor of AuthParamsIdGuard
+   * Use JWT_USER_ID_PARAMETER_NAME environment variable to get user id in JWT
    * If no 'parameterName'is specified use GUARD_PARAMETER_NAME environment variable
    * @param jwtService JwtService to decode JWT from HTTP header
    * @param parameterName Name of route parameter
@@ -27,6 +29,12 @@ export class AuthParamsIdGuard implements CanActivate {
     if (this.parameterName.startsWith(':')) {
       throw new Error('Parameter name cannot start with ":" ');
     }
+
+    if (!process.env.JWT_USER_ID_PARAMETER_NAME) {
+      throw new Error('No JWT_USER_ID_PARAMETER_NAME specify');
+    }
+
+    this.jwtUserParameterName = process.env.JWT_USER_ID_PARAMETER_NAME;
 
   }
 
@@ -61,7 +69,7 @@ export class AuthParamsIdGuard implements CanActivate {
     const token = this.jwtService.decode(authorization[1], { json: true }) as any;
 
     // Check if route param match user authenticated id
-    if (token.id !== routeParam) {
+    if (!token.admin && token[this.jwtUserParameterName] !== routeParam) {
       throw new NotFoundException();
     }
 
