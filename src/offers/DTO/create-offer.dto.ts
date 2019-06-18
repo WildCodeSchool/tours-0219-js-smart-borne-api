@@ -7,19 +7,14 @@ class Coupon {
   @IsInt()
   @Min(0)
   @Max(0)
-  readonly imprimer: number = 0;
-  @IsInt()
-  @Min(0)
-  @Max(0)
-  readonly total: number = 0;
+  readonly imprime: number = 0;
 }
 
 export class CreateOfferDto {
-  @IsNotEmpty()
+
   readonly client: string;
-  @IsNotEmpty()
   readonly remise: string;
-  @IsNotEmpty()
+
   readonly contrat: {
     readonly debut: string;
     readonly fin: string;
@@ -27,4 +22,5 @@ export class CreateOfferDto {
   @Type(() => Coupon)
   @ValidateNested()
   readonly coupon: Coupon;
+  readonly total: string;
 }

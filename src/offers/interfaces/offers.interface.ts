@@ -7,8 +7,8 @@ export interface Offer extends Document {
     debut: String;
     fin: String;
   },
-  coupons: {
-    imprimes: String;
+  coupon: {
+    imprime: Number;
     total: String;
   },
 }

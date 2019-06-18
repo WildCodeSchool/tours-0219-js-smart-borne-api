@@ -60,6 +60,33 @@ class Total {
 
 }
 
+class Jour {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly cannetteTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly cannetteUtilise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly plastiqueTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly plastiqueUtilise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly couponTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly couponUtilise: number = 0;
+}
+
 export class CreateBorneDto {
   @IsNotEmpty()
   readonly numeroSerie: string;
@@ -88,6 +115,7 @@ export class CreateBorneDto {
   @ValidateNested()
   readonly coupon: Coupon;
 
+  
   @Type(() => Total)
   @ValidateNested()
   readonly total: Total;
