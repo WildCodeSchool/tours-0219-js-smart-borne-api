@@ -69,7 +69,8 @@ export class AuthParamsIdGuard implements CanActivate {
     const token = this.jwtService.decode(authorization[1], { json: true }) as any;
 
     // Check if route param match user authenticated id
-    if (!token.admin && token[this.jwtUserParameterName] !== routeParam) {
+    if (!token.role || (token.role && token.role.toLowerCase() !== 'administrateur')
+      && (token[this.jwtUserParameterName] !== routeParam)) {
       throw new NotFoundException();
     }
 
