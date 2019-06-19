@@ -115,7 +115,6 @@ export class CreateBorneDto {
   @ValidateNested()
   readonly coupon: Coupon;
 
-  
   @Type(() => Total)
   @ValidateNested()
   readonly total: Total;

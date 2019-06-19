@@ -1,4 +1,5 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+import { Offer } from '../../offers/interfaces/offers.interface';
 
 export interface Borne extends Document {
   numeroSerie: String;
@@ -20,11 +21,11 @@ export interface Borne extends Document {
   plastique: {
     utilise: Number,
     total: Number,
-  },
+  };
   cannette: {
     utilise: Number,
     total: Number,
-  }
+  };
   total: {
     recycle: Number,
     remise: Number,
@@ -33,4 +34,5 @@ export interface Borne extends Document {
   problemesTechniques: String;
   styliseeClient: String;
   details: String;
+  offers: Types.DocumentArray<Offer>;
 }

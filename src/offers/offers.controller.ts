@@ -23,8 +23,8 @@ export class OffersController {
   }
 
   @Post()
-  async create(@Body() createOfferDto: CreateOfferDto): Promise<Offer> {
-    return this.offersService.create(createOfferDto);
+  async create(@Param('id') id: string, @Body() createOfferDto: CreateOfferDto): Promise<Offer> {
+    return this.offersService.create(id, createOfferDto);
   }
 
   @Get(':id')

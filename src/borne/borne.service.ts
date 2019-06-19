@@ -25,7 +25,7 @@ export class BorneService {
     return borne;
   }
 
-  async create(borneData: CreateBorneDto): Promise<Borne> {
+  async create(id: string, borneData: CreateBorneDto): Promise<Borne> {
     const bornes = new (this.borneModel)(borneData);
     return await bornes.save();
   }

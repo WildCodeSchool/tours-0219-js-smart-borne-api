@@ -1,8 +1,6 @@
 import { IsInt, Min, Max, ValidateNested, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 
-
-
 class Coupon {
   @IsInt()
   @Min(0)
@@ -18,7 +16,7 @@ export class CreateOfferDto {
   readonly contrat: {
     readonly debut: string;
     readonly fin: string;
-  }
+  };
   @Type(() => Coupon)
   @ValidateNested()
   readonly coupon: Coupon;

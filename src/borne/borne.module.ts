@@ -5,10 +5,14 @@ import { BorneController } from './borne.controller';
 import { borneSchema } from './schemas/borne.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'bornes', schema: borneSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: 'bornes', schema: borneSchema }])],
   providers: [BorneService],
   controllers: [
     BorneController,
+  ],
+  exports: [
+    BorneService,
   ],
 })
 export class BorneModule {
