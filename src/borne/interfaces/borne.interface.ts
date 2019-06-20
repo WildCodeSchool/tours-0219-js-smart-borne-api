@@ -33,4 +33,30 @@ export interface Borne extends Document {
   problemesTechniques: String;
   styliseeClient: String;
   details: String;
+
+  jour: {
+    cannetteTotal: Number,
+    cannetteUtilise: Number,
+    plastiqueTotal: Number,
+    plastiqueUtilise: Number,
+    couponTotal: Number,
+    couponUtilise: Number
+  }
+
+  semaine: {
+    cannetteTotal: Number,
+    cannetteUtilise: Number,
+    plastiqueTotal: Number,
+    plastiqueUtilise: Number,
+    couponTotal: Number,
+    couponUtilise: Number
+  }
+  mois: {
+    cannetteTotal: Number,
+    cannetteUtilise: Number,
+    plastiqueTotal: Number,
+    plastiqueUtilise: Number,
+    couponTotal: Number,
+    couponUtilise: Number
+  }
 }
