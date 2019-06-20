@@ -23,7 +23,7 @@ export class OffersService {
     return offer;
   }
 
-  async create(offerData: CreateOfferDto): Promise<Offer> {
+  async create(id: string, offerData: CreateOfferDto): Promise<Offer> {
     const newOffer = new this.offerModel(offerData);
     return await newOffer.save();
   }

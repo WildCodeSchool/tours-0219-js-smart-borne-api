@@ -6,9 +6,9 @@ export interface Offer extends Document {
   contrat: {
     debut: String;
     fin: String;
-  },
+  };
   coupon: {
     imprime: Number;
     total: String;
-  },
+  };
 }

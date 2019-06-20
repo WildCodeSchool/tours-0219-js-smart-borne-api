@@ -1,4 +1,5 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+import { Borne } from '../borne/interfaces/borne.interface';
 
 export interface Client extends Document {
   name: String;
@@ -28,4 +29,5 @@ export interface Client extends Document {
     imprimer: Number,
     restant: Number,
   };
+  bornes: Types.DocumentArray<Borne>;
 }

@@ -23,8 +23,8 @@ export class BorneController {
   }
 
   @Post()
-  async create(@Body() borneData: CreateBorneDto): Promise<Borne> {
-    return this.borneService.create(borneData);
+  async create(@Param('id') id: string, @Body() borneData: CreateBorneDto): Promise<Borne> {
+    return this.borneService.create(id, borneData);
   }
 
   @Put(':id')
