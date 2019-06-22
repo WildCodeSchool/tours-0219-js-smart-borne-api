@@ -1,16 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { OffersController } from './offers.controller';
-import { OffersService } from './offers.service';
-import { offerSchema } from './schema/offers.schema';
-import { BorneModule } from '../borne/borne.module';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
   imports: [
-    BorneModule,
-    MongooseModule.forFeature([{ name: 'Offer', schema: offerSchema }]),
+    SharedModule
   ],
   controllers: [OffersController],
-  providers: [OffersService],
+  providers: [],
+  exports: [],
 })
 export class OffersModule {}

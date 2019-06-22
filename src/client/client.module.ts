@@ -1,16 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ClientController } from './client.controller';
-import { ClientService } from './client.service';
-import { clientSchema } from './client.schema';
-import { BorneModule } from '../borne/borne.module';
+import { SharedModule } from '../shared/shared.module';
+
 @Module({
   imports: [
-    BorneModule,
-    MongooseModule.forFeature([{ name: 'Client', schema: clientSchema }]),
+    SharedModule
   ],
   controllers: [ClientController],
-  providers: [ClientService],
+  providers: [],
 })
 export class ClientModule {
 }

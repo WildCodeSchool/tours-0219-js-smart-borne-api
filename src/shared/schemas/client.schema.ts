@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
-import { borneSchema } from '../borne/schemas/borne.schema';
+import { borneSchema } from './borne.schema';
+import { offerSchema } from './offers.schema';
 
 export const clientSchema = new mongoose.Schema({
   name: String,
@@ -30,4 +31,5 @@ export const clientSchema = new mongoose.Schema({
     restant: Number,
   },
   bornes: [borneSchema],
+  offer: [offerSchema],
 });

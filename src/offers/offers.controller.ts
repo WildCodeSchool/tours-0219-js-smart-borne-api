@@ -8,8 +8,8 @@ import {
   Param, UseGuards,
 } from '@nestjs/common';
 import { CreateOfferDto } from './DTO/create-offer.dto';
-import { Offer } from './interfaces/offers.interface';
-import { OffersService } from './offers.service';
+import { Offer } from '../shared/interfaces/offers.interface';
+import { OffersService } from '../shared/services/offers.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @UseGuards(AuthGuard('jwt'))

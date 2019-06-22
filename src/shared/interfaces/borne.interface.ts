@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { Offer } from '../../offers/interfaces/offers.interface';
+import { Offer } from './offers.interface';
 
 export interface Borne extends Document {
   numeroSerie: String;
