@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { CreateClientDto } from './client.dto.create';
 import { UpdateClientDto } from './client.dto.update';
-import { ClientService } from './client.service';
-import { Client } from './client.interface';
+import { ClientService } from '../shared/services/client.service';
+import { Client } from '../shared/interfaces/client.interface';
 import { AuthGuard } from '@nestjs/passport';
-import { BorneService } from '../borne/borne.service';
-import { Borne } from '../borne/interfaces/borne.interface';
+import { BorneService } from '../shared/services/borne.service';
+import { Borne } from '../shared/interfaces/borne.interface';
+import { OffersService } from '../shared/services/offers.service';
+import { Offer } from '../shared/interfaces/offers.interface'
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('client')
@@ -14,6 +16,7 @@ export class ClientController {
   constructor(
     private readonly borneService: BorneService,
     private readonly clientsService: ClientService,
+    private readonly offerService: OffersService,
   ) {
   }
 
@@ -44,11 +47,21 @@ export class ClientController {
 
   @Put(':idClient/bornes/:idBorne')
   async createBorne(@Param('idClient') idClient: string,
-                    @Param('idBorne') idBorne: string): Promise<Client> {
+    @Param('idBorne') idBorne: string): Promise<Client> {
     const client: Client = await this.clientsService.findOne(idClient);
     const borne: Borne = await this.borneService.findOne(idBorne);
     client.bornes.push(borne);
     await client.save();
     return client;
   }
+    
+  @Put(':idClient/offer/:idOffer')
+  async createOffer(@Param('idClient') idClient: string,
+    @Param('idOffer') idOffer: string): Promise < Client > {
+      const client: Client = await this.clientsService.findOne(idClient);
+      const offer: Offer = await this.offerService.findOne(idOffer);
+      client.offer.push(offer);
+      await client.save();
+      return client;
+    }
 }

@@ -2,9 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ObjectId } from 'mongodb';
-import { Borne } from './interfaces/borne.interface';
-import { CreateBorneDto } from './dto/create-borne.dto';
-import { UpdateBorneDto } from './dto/update-borne.dto';
+import { Borne } from '../interfaces/borne.interface';
+import { CreateBorneDto } from '../../borne/dto/create-borne.dto';
+import { UpdateBorneDto } from '../../borne/dto/update-borne.dto';
 
 @Injectable()
 export class BorneService {

@@ -87,6 +87,59 @@ class Jour {
   readonly couponUtilise: number = 0;
 }
 
+class Semaine {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly cannetteTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly cannetteUtilise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly plastiqueTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly plastiqueUtilise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly couponTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly couponUtilise: number = 0;
+}
+
+class Mois {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly cannetteTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly cannetteUtilise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly plastiqueTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly plastiqueUtilise: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly couponTotal: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly couponUtilise: number = 0;
+}
 export class CreateBorneDto {
   @IsNotEmpty()
   readonly numeroSerie: string;
@@ -114,6 +167,10 @@ export class CreateBorneDto {
   @Type(() => Coupon)
   @ValidateNested()
   readonly coupon: Coupon;
+
+  @Type(() => Jour)
+  @ValidateNested()
+  readonly jour: Jour;
 
   @Type(() => Total)
   @ValidateNested()

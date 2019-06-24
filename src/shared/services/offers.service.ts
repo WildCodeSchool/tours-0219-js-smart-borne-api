@@ -1,8 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Offer } from './interfaces/offers.interface';
+import { Offer } from '../interfaces/offers.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateOfferDto } from './DTO/create-offer.dto';
+import { CreateOfferDto } from '../../offers/DTO/create-offer.dto';
 import { ObjectId } from 'mongodb';
 
 @Injectable()

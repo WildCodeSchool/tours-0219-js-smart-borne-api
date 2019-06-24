@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { offerSchema } from '../../offers/schema/offers.schema';
+import { offerSchema } from './offers.schema';
 
 export const borneSchema = new mongoose.Schema(
   {

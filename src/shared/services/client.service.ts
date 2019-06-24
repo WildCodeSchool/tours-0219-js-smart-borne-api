@@ -1,11 +1,11 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Client } from './client.interface';
+import { Client } from '../interfaces/client.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateClientDto } from './client.dto.create';
-import { UpdateClientDto } from './client.dto.update';
+import { CreateClientDto } from '../../client/client.dto.create';
+import { UpdateClientDto } from '../../client/client.dto.update';
 import { ObjectId } from 'mongodb';
-import { Borne } from '../borne/interfaces/borne.interface';
+import { Borne } from '../interfaces/borne.interface';
 
 @Injectable()
 export class ClientService {
