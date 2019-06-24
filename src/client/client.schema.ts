@@ -29,5 +29,7 @@ export const clientSchema = new mongoose.Schema({
     imprimer: Number,
     restant: Number,
   },
+  plastiqueTotal: Number,
+  cannetteTotal: Number,
   bornes: [borneSchema],
 });

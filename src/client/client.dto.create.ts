@@ -26,4 +26,6 @@ export class CreateClientDto {
     readonly imprimer: number;
     readonly restant: number;
   };
+  readonly plastiqueTotal: number;
+  readonly cannetteTotal: number;
 }
