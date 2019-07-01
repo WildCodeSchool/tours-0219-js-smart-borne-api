@@ -5,7 +5,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
-import { userSchema } from '../user/schemas/user.shema';
+import { userSchema } from '../shared/schemas/user.shema';
 import { UserService } from '../user/user.service';
 require('dotenv').config();
 

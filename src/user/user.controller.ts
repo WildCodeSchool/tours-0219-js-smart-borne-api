@@ -3,13 +3,16 @@ from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from './interfaces/user.interface';
+import { User } from '../shared/interfaces/user.interface';
+import { Client } from '../shared/interfaces/client.interface';
+import { ClientService } from '../shared/services/client.service';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UserController {
 
-  constructor(private readonly userService: UserService) {
+  constructor(private readonly userService: UserService,
+              private readonly clientsService: ClientService) {
   }
 
   @Get()
@@ -37,6 +40,16 @@ export class UserController {
   @Post()
     async create(@Body() cardData: CreateUserDto): Promise<User> {
     return this.userService.create(cardData);
+  }
+
+  @Put(':idClient/user/:idUser')
+  async createClient(@Param('idClient') idClient: string,
+                     @Param('idUser') idUser: string): Promise <User> {
+    const client: Client = await this.clientsService.findOne(idClient);
+    const user: User = await this.userService.findOne(idUser);
+    user.clients.push(client);
+    await user.save();
+    return user;
   }
 
 }
