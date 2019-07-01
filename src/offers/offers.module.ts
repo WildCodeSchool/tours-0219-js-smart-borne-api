@@ -4,7 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 
 @Module({
   imports: [
-    SharedModule
+    SharedModule,
   ],
   controllers: [OffersController],
   providers: [],
