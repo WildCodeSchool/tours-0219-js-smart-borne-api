@@ -1,5 +1,5 @@
 import { Get, Controller, UseGuards, Req, Param } from '@nestjs/common';
-import { UserService } from '../user/user.service';
+import { UserService } from '../shared/services/user.service';
 import { GetProfileDto } from './dto/get-profile-dto';
 
 import { AuthGuard } from '@nestjs/passport';

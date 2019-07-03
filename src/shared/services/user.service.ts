@@ -1,15 +1,15 @@
 import { Injectable, Param } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from '../../user/dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ObjectId } from 'bson';
-import { User } from '../shared/interfaces/user.interface';
+import { User } from '../interfaces/user.interface';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(
-        @InjectModel('users') private readonly userModel: Model<User>,
+        @InjectModel('Users') private readonly userModel: Model<User>,
     ) {
   }
 

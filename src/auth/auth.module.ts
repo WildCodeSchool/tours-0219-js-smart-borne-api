@@ -6,12 +6,13 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import { userSchema } from '../shared/schemas/user.shema';
-import { UserService } from '../user/user.service';
+import { UserService } from '../shared/services/user.service';
+import { SharedModule } from '../shared/shared.module';
 require('dotenv').config();
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'users', schema: userSchema }]),
+    SharedModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.SECRET,
@@ -21,7 +22,7 @@ require('dotenv').config();
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, UserService],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {
 }

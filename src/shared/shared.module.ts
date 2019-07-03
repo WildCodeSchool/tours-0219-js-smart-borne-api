@@ -12,18 +12,21 @@ import { clientSchema } from './schemas/client.schema';
 // BORNES
 import { BorneService } from './services/borne.service';
 import { borneSchema } from './schemas/borne.schema';
+
+//
 import { userSchema } from './schemas/user.shema';
-import { UserService } from '../user/user.service';
+import { UserService } from './services/user.service';
 
 @Module({
     imports: [
         MongooseModule.forFeature([
-            { name: 'Offer', schema: offerSchema },
-            { name: 'Client', schema: clientSchema },
-            { name: 'bornes', schema: borneSchema },
+            { name: 'Offers', schema: offerSchema },
+            { name: 'Clients', schema: clientSchema },
+            { name: 'Bornes', schema: borneSchema },
+            { name: 'Users', schema: userSchema },
         ]),
     ],
-    providers: [OffersService, ClientService, BorneService],
-    exports: [OffersService, ClientService, BorneService],
+    providers: [OffersService, ClientService, BorneService, UserService],
+    exports: [OffersService, ClientService, BorneService, UserService],
 })
 export class SharedModule { }

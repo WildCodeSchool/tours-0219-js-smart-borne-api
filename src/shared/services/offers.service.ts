@@ -8,7 +8,7 @@ import { ObjectId } from 'mongodb';
 @Injectable()
 export class OffersService {
   constructor(
-    @InjectModel('Offer') private readonly offerModel: Model<Offer>,
+    @InjectModel('Offers') private readonly offerModel: Model<Offer>,
   ) { }
 
   async findAll(): Promise<Offer[]> {

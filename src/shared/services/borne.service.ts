@@ -9,7 +9,7 @@ import { UpdateBorneDto } from '../../borne/dto/update-borne.dto';
 @Injectable()
 export class BorneService {
   constructor(
-    @InjectModel('bornes') private readonly borneModel: Model<Borne>,
+    @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
   ) {
   }
 

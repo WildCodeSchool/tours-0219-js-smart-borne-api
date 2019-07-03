@@ -2,11 +2,14 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProfileController } from './profile.controller';
 import { userSchema } from '../shared/schemas/user.shema';
-import { UserService } from '../user/user.service';
+import { UserService } from '../shared/services/user.service';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'users', schema: userSchema }])],
-  providers: [UserService],
+  imports: [
+    SharedModule
+  ],
+  providers: [],
   controllers: [
     ProfileController,
   ],

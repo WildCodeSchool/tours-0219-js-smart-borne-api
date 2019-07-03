@@ -10,8 +10,8 @@ import { Borne } from '../interfaces/borne.interface';
 @Injectable()
 export class ClientService {
   constructor(
-    @InjectModel('Client') private readonly clientModel: Model<Client>,
-    @InjectModel('bornes') private readonly borneModel: Model<Borne>,
+    @InjectModel('Clients') private readonly clientModel: Model<Client>,
+    @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
   ) { }
 
   async findAll(): Promise<Client[]> {
