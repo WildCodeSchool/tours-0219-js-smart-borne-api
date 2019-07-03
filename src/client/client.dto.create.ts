@@ -1,3 +1,21 @@
+import { IsInt, Min, Max, ValidateNested, IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+
+class Coupon {
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly total: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly imprimer: number = 0;
+  @IsInt()
+  @Min(0)
+  @Max(0)
+  readonly restant: number = 0;
+}
+
 export class CreateClientDto {
   readonly name: string;
   readonly siret: string;
@@ -21,9 +39,8 @@ export class CreateClientDto {
     readonly email: string;
     readonly telephone: string;
   };
-  readonly coupon:{
-    readonly total: number;
-    readonly imprimer: number;
-    readonly restant: number;
-  };
+  @Type(() => Coupon)
+  @ValidateNested()
+  readonly coupon: Coupon;
+
 }

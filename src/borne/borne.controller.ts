@@ -6,15 +6,17 @@ import { Borne } from '../shared/interfaces/borne.interface';
 import { AuthGuard } from '@nestjs/passport';
 import { Offer } from '../shared/interfaces/offers.interface';
 import { OffersService } from '../shared/services/offers.service';
+import { Client } from '../shared/interfaces/client.interface';
+import { ClientService } from '../shared/services/client.service';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('bornes')
 export class BorneController {
 
   constructor(
-    
     private readonly borneService: BorneService,
-    private readonly offerService: OffersService) {
+    private readonly offerService: OffersService,
+    private readonly clientsService: ClientService) {
   }
 
   @Get()
@@ -38,18 +40,41 @@ export class BorneController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<Borne> {
-    return this.borneService.delete(id);
+  async delete(@Param('id') idBorne: string): Promise<Borne> {
+    const clients = await this.clientsService.findClientByBorne(idBorne)
+    const borne = await this.borneService.delete(idBorne);
+    
+    for (let i = 0; i < clients.length ;  i++) {
+      clients[i].bornes.remove(borne)
+    }
+    borne.save()
+    return borne
+
   }
 
   @Put(':idBorne/offer/:idOffer')
   async createOffer(@Param('idOffer') idOffer: string,
-   @Param('idBorne') idBorne: string): Promise<Borne> {
+                    @Param('idBorne') idBorne: string): Promise<Borne> {
     const borne: Borne = await this.borneService.findOne(idBorne);
     const offers: Offer = await this.offerService.findOne(idOffer);
     borne.offers.push(offers);
     await borne.save();
     return borne;
   }
+  // @Delete(':idBorne/client/:idClient')
+  // async deleteBorne(@Param('idClient') idClient: string,
+  //                   @Param('idBorne') idBorne: string): Promise<Client> {
+  //   const client: Client = await this.clientsService.findOne(idClient);
+
+  //   const borne: Borne = await this.borneService.findOne(idBorne);
+  //   client.bornes.remove(borne);
+  //   // const borne = client.bornes.id(idBorne);
+
+  //   // if (!borne) throw new NotFoundException();
+
+  //   // await borne.remove();
+  //   await client.save();
+  //   return client;
+  // }
 
 }

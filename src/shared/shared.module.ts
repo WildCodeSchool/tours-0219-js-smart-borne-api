@@ -15,12 +15,13 @@ import { borneSchema } from './schemas/borne.schema';
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{ name: 'Offer', schema: offerSchema }]),
-        MongooseModule.forFeature([{ name: 'Client', schema: clientSchema }]),
-        MongooseModule.forFeature([{ name: 'bornes', schema: borneSchema }])],
-    providers: [OffersService, ClientService, BorneService],
-    exports: [
-        OffersService, ClientService, BorneService
+        MongooseModule.forFeature([
+            { name: 'Offer', schema: offerSchema },
+            { name: 'Client', schema: clientSchema },
+            { name: 'bornes', schema: borneSchema },
+        ]),
     ],
+    providers: [OffersService, ClientService, BorneService],
+    exports: [OffersService, ClientService, BorneService],
 })
 export class SharedModule { }

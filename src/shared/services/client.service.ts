@@ -11,7 +11,7 @@ import { Borne } from '../interfaces/borne.interface';
 export class ClientService {
   constructor(
     @InjectModel('Client') private readonly clientModel: Model<Client>,
-    // @InjectModel('Borne') private readonly borneModel: Model<Borne>,
+    @InjectModel('bornes') private readonly borneModel: Model<Borne>,
   ) { }
 
   async findAll(): Promise<Client[]> {
@@ -45,5 +45,17 @@ export class ClientService {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     return client;
+  }
+  async deleteBorne(idClient: string, idBorne: string): Promise<Client> {
+    const client: Client = await this.clientModel.findById(idClient);
+    const borne: Borne = await this.borneModel.findById(idBorne);
+    client.bornes.remove(borne);
+    await client.save();
+    return client;
+  }
+  async findClientByBorne(idBorne: string): Promise<Client[]> {
+    // const borne: Borne = await this.borneModel.findById(idBorne);
+    const clients : Client[] = await this.clientModel.find({'bornes._id': idBorne })
+    return clients;
   }
 }
