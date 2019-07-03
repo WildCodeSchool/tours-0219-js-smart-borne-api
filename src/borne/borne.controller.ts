@@ -40,16 +40,18 @@ export class BorneController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') idBorne: string): Promise<Borne> {
+  async delete(@Param('id') idBorne: string) {
     const clients = await this.clientsService.findClientByBorne(idBorne)
     const borne = await this.borneService.delete(idBorne);
     
-    for (let i = 0; i < clients.length ;  i++) {
-      clients[i].bornes.remove(borne)
-    }
-    borne.save()
-    return borne
+    const promises = [];
 
+    for (let i = 0; i < clients.length ;  i++) {
+      clients[i].bornes.remove(borne);
+      promises.push(clients[i].save());
+    }
+
+    return Promise.all(promises);
   }
 
   @Put(':idBorne/offer/:idOffer')
