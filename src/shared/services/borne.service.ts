@@ -27,7 +27,12 @@ export class BorneService {
 
   async create(id: string, borneData: CreateBorneDto): Promise<Borne> {
     const bornes = new (this.borneModel)(borneData);
-    return await bornes.save();
+    const result = await this.borneModel.find({ numeroSerie: bornes.numeroSerie });
+    if (result.length) {
+      throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
+    } else {
+      return await bornes.save();
+    }
   }
 
   async update(id: string, borneData: UpdateBorneDto): Promise<Borne> {

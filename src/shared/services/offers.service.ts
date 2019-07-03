@@ -25,7 +25,12 @@ export class OffersService {
 
   async create(id: string, offerData: CreateOfferDto): Promise<Offer> {
     const newOffer = new this.offerModel(offerData);
-    return await newOffer.save();
+    const result = await this.offerModel.find({ surnom: newOffer.surnom });
+    if (result.length) {
+      throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
+    } else {
+      return await newOffer.save();
+    }
   }
 
   async delete(id: string): Promise<Offer> {

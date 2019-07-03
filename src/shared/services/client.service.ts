@@ -28,7 +28,12 @@ export class ClientService {
 
   async create(client: CreateClientDto): Promise<Client> {
     const newClient = new this.clientModel(client);
-    return await newClient.save();
+    const result = await this.clientModel.find({ siret: newClient.siret });
+    if (result.length) {
+      throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
+    } else {
+      return await newClient.save();
+    }
   }
 
   async delete(id: string): Promise<Client> {
