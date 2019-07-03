@@ -12,7 +12,6 @@ import { OffersService } from '../shared/services/offers.service';
 export class BorneController {
 
   constructor(
-    
     private readonly borneService: BorneService,
     private readonly offerService: OffersService) {
   }
@@ -51,5 +50,6 @@ export class BorneController {
     await borne.save();
     return borne;
   }
+
 
 }
