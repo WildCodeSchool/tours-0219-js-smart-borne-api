@@ -30,6 +30,8 @@ export interface Client extends Document {
     imprimer: Number,
     restant: Number,
   };
+  plastiqueTotal: Number;
+  cannetteTotal: Number;
   bornes: Types.DocumentArray<Borne>;
   offer: Types.DocumentArray<Offer>;
 }
