@@ -4,7 +4,7 @@ import {
   Post, UnprocessableEntityException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { User } from '../user/interfaces/user.interface';
+import { User } from '../shared/interfaces/user.interface';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto';
 import { LoginDto } from './dto/login.dto';

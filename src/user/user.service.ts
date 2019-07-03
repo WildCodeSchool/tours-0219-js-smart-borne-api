@@ -3,7 +3,7 @@ import { CreateUserDto, UpdateUserDto } from './dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ObjectId } from 'bson';
-import { User } from './interfaces/user.interface';
+import { User } from '../shared/interfaces/user.interface';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class UserService {
     return await this.userModel.find();
   }
 
-  async findOne(id): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return await this.userModel.findOne({ _id: new ObjectId(id) });
   }
 

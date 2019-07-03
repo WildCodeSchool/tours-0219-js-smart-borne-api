@@ -39,8 +39,8 @@ export class CreateClientDto {
     readonly email: string;
     readonly telephone: string;
   };
+
   @Type(() => Coupon)
   @ValidateNested()
   readonly coupon: Coupon;
-
 }
