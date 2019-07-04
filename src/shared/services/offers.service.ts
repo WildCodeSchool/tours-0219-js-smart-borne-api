@@ -27,9 +27,9 @@ export class OffersService {
     const newOffer = new this.offerModel(offerData);
     return await newOffer.save();
   }
-
+  
   async delete(id: string): Promise<Offer> {
-    const offer =  await this.offerModel.findByIdAndRemove(id);
+    const offer =  await this.offerModel.findByIdAndRemove({ _id: new ObjectId(id) });
     if (!offer) {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
     }
