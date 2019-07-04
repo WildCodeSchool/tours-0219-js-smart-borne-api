@@ -43,7 +43,6 @@ export class OffersService {
       return await newOffer.save();
     }
   }
-  
 
   /**
    * @param id

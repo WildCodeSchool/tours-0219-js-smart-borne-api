@@ -8,14 +8,23 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('profile')
 export class ProfileController {
 
+  /**
+   * @param userService
+   */
   constructor(private readonly userService: UserService) {
   }
 
+  /**
+   * @param req
+   */
   @Get()
     async getProfile(@Req() req): Promise<GetProfileDto> {
     return await this.userService.findByEmail(req.user.email);
   }
 
+  /**
+   * @param id
+   */
   @Get(':id')
     async findOne(@Param('id') id: string): Promise<GetProfileDto> {
     return await this.userService.findOne(id);

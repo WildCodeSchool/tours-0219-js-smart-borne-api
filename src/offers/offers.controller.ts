@@ -16,10 +16,16 @@ import { BorneService } from '../shared/services/borne.service';
 @UseGuards(AuthGuard('jwt'))
 @Controller('offer')
 export class OffersController {
+
+  /**
+   * @param offersService
+   * @param clientsService
+   * @param borneService
+   */
   constructor(
     private readonly offersService: OffersService,
     private readonly clientsService: ClientService,
-    private readonly borneService: BorneService,) {}
+    private readonly borneService: BorneService) {}
 
   /**
    * List of offers
@@ -49,8 +55,7 @@ export class OffersController {
   }
 
   /**
-   * Delete offer by Id
-   * @param id
+   * @param idOffer
    */
   @Delete(':id')
   async delete(@Param('id') idOffer: string) {
@@ -58,33 +63,21 @@ export class OffersController {
     const clients = await this.clientsService.findClientByOffer(idOffer);
     const bornes = await this.borneService.findBorneByOffer(idOffer);
 
-
     const promises = [];
 
+    // tslint:disable-next-line:no-increment-decrement
     for (let i = 0; i < clients.length ;  i++) {
       clients[i].offer.remove(offer);
-      promises.push(clients[i].save())
+      promises.push(clients[i].save());
     }
+    // tslint:disable-next-line:no-increment-decrement
     for (let i = 0; i < bornes.length; i++) {
       bornes[i].offers.remove(offer);
       promises.push(bornes[i].save());
     }
     return Promise.all(promises);
   }
-  // @Delete(':id')
-  // async delete(@Param('id') idBorne: string) {
-  //   const clients = await this.clientsService.findClientByBorne(idBorne)
-  //   const borne = await this.borneService.delete(idBorne);
-    
-  //   const promises = [];
 
-  //   for (let i = 0; i < clients.length ;  i++) {
-  //     clients[i].bornes.remove(borne);
-  //     promises.push(clients[i].save());
-  //   }
-
-  //   return Promise.all(promises);
-  // }
   /**
    * Update offer by Id
    * @param createOfferDto

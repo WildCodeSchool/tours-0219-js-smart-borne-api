@@ -12,6 +12,7 @@ export class BorneService {
 
   /**
    * @param borneModel
+   * @param offerModel
    */
   constructor(
     @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
@@ -71,6 +72,10 @@ export class BorneService {
     return borne;
   }
 
+  /**
+   * @param idBorne
+   * @param idOffer
+   */
   async deleteOffer(idBorne: string, idOffer: string): Promise<Borne> {
     const borne: Borne = await this.borneModel.findById(idBorne);
     const offer: Offer = await this.offerModel.findById(idOffer);
@@ -79,8 +84,11 @@ export class BorneService {
     return borne;
   }
 
+  /**
+   * @param idOffer
+   */
   async findBorneByOffer(idOffer: string): Promise<Borne[]> {
-    const bornes: Borne[] = await this.borneModel.find({'offers._id': idOffer});
+    const bornes: Borne[] = await this.borneModel.find({ 'offers._id': idOffer });
     return bornes;
   }
 }

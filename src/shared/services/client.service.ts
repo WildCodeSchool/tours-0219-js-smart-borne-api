@@ -14,6 +14,7 @@ export class ClientService {
   /**
    * @param clientModel
    * @param borneModel
+   * @param offerModel
    */
   constructor(
     @InjectModel('Clients') private readonly clientModel: Model<Client>,
@@ -83,6 +84,11 @@ export class ClientService {
     await client.save();
     return client;
   }
+
+  /**
+   * @param idClient
+   * @param idOffer
+   */
   async deleteOffer(idClient: string, idOffer: string): Promise<Client> {
     const client: Client = await this.clientModel.findById(idClient);
     const offer: Offer = await this.offerModel.findById(idOffer);
@@ -90,14 +96,21 @@ export class ClientService {
     await client.save();
     return client;
   }
-  
+
+  /**
+   * @param idBorne
+   */
   async findClientByBorne(idBorne: string): Promise<Client[]> {
     // const borne: Borne = await this.borneModel.findById(idBorne);
-    const clients : Client[] = await this.clientModel.find({'bornes._id': idBorne });
+    const clients : Client[] = await this.clientModel.find({ 'bornes._id': idBorne });
     return clients;
   }
+
+  /**
+   * @param idOffer
+   */
   async findClientByOffer(idOffer: string): Promise<Client[]> {
-    const clients: Client[] = await this.clientModel.find({'offer._id': idOffer});
+    const clients: Client[] = await this.clientModel.find({ 'offer._id': idOffer });
     return clients;
   }
 }

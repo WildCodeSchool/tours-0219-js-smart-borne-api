@@ -107,21 +107,10 @@ export class BorneController {
     throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
   }
 
-  // @Delete(':idBorne/client/:idClient')
-  // async deleteBorne(@Param('idClient') idClient: string,
-  //                   @Param('idBorne') idBorne: string): Promise<Client> {
-  //   const client: Client = await this.clientsService.findOne(idClient);
-
-  //   const borne: Borne = await this.borneService.findOne(idBorne);
-  //   client.bornes.remove(borne);
-  //   // const borne = client.bornes.id(idBorne);
-
-  //   // if (!borne) throw new NotFoundException();
-
-  //   // await borne.remove();
-  //   await client.save();
-  //   return client;
-  // }
+  /**
+   * @param idBorne
+   * @param idOffer
+   */
   @Delete(':idBorne/offer/:idOffer')
   async deleteOffer(@Param('idBorne') idBorne: string,
                     @Param('idOffer') idOffer: string): Promise<Borne> {
