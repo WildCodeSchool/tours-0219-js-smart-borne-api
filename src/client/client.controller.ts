@@ -85,10 +85,10 @@ export class ClientController {
     const tab = [];
     // tslint:disable-next-line:no-increment-decrement
     for (let i = 0; i < client.bornes.length; i++) {
-      tab.push(client.bornes[i]._id.toString());
+      tab.push(client.bornes[i]._id);
     }
 
-    const result = tab.filter(borne => borne === borne._id.toString());
+    const result = tab.filter(client => client === borne._id.toString());
     if (!result.length) {
       client.bornes.push(borne);
       await client.save();
