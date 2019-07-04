@@ -9,6 +9,10 @@ import { Offer } from '../interfaces/offers.interface';
 
 @Injectable()
 export class BorneService {
+
+  /**
+   * @param borneModel
+   */
   constructor(
     @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
     @InjectModel('Offers') private readonly offerModel: Model<Offer>,
@@ -19,6 +23,9 @@ export class BorneService {
     return await this.borneModel.find();
   }
 
+  /**
+   * @param id
+   */
   async findOne(id: string): Promise<Borne> {
     const borne = await this.borneModel.findOne({ _id: new ObjectId(id) });
     if (!borne) {
@@ -27,11 +34,24 @@ export class BorneService {
     return borne;
   }
 
+  /**
+   * @param id
+   * @param borneData
+   */
   async create(id: string, borneData: CreateBorneDto): Promise<Borne> {
     const bornes = new (this.borneModel)(borneData);
-    return await bornes.save();
+    const result = await this.borneModel.find({ numeroSerie: bornes.numeroSerie });
+    if (result.length) {
+      throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
+    } else {
+      return await bornes.save();
+    }
   }
 
+  /**
+   * @param id
+   * @param borneData
+   */
   async update(id: string, borneData: UpdateBorneDto): Promise<Borne> {
     const borne = await this.borneModel.findByIdAndUpdate(id, borneData);
     if (!borne) {
@@ -40,6 +60,9 @@ export class BorneService {
     return borne;
   }
 
+  /**
+   * @param id
+   */
   async delete(id: string): Promise<Borne> {
     const borne = await this.borneModel.findByIdAndRemove({ _id: new ObjectId(id) });
     if (!borne) {

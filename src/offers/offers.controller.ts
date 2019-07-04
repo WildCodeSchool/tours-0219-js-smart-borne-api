@@ -21,21 +21,37 @@ export class OffersController {
     private readonly clientsService: ClientService,
     private readonly borneService: BorneService,) {}
 
+  /**
+   * List of offers
+   */
   @Get()
   async findAll(): Promise<Offer[]> {
     return this.offersService.findAll();
   }
 
+  /**
+   * Create offer
+   * @param id
+   * @param createOfferDto
+   */
   @Post()
   async create(@Param('id') id: string, @Body() createOfferDto: CreateOfferDto): Promise<Offer> {
     return this.offersService.create(id, createOfferDto);
   }
 
+  /**
+   * Offer by Id
+   * @param id
+   */
   @Get(':id')
   async findOne(@Param('id') id): Promise<Offer> {
     return this.offersService.findOne(id);
   }
 
+  /**
+   * Delete offer by Id
+   * @param id
+   */
   @Delete(':id')
   async delete(@Param('id') idOffer: string) {
     const offer = await this.offersService.delete(idOffer);
@@ -69,6 +85,11 @@ export class OffersController {
 
   //   return Promise.all(promises);
   // }
+  /**
+   * Update offer by Id
+   * @param createOfferDto
+   * @param id
+   */
   @Put(':id')
   async update(@Body() createOfferDto: CreateOfferDto, @Param('id') id): Promise<Offer> {
     return this.offersService.update(id, createOfferDto);

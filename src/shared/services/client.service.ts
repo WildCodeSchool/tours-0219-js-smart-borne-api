@@ -10,6 +10,11 @@ import { Offer } from '../interfaces/offers.interface';
 
 @Injectable()
 export class ClientService {
+
+  /**
+   * @param clientModel
+   * @param borneModel
+   */
   constructor(
     @InjectModel('Clients') private readonly clientModel: Model<Client>,
     @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
@@ -20,6 +25,9 @@ export class ClientService {
     return await this.clientModel.find();
   }
 
+  /**
+   * @param id
+   */
   async findOne(id: string): Promise<Client> {
     const client = await this.clientModel.findOne({ _id: new ObjectId(id) });
     if (!client) {
@@ -28,11 +36,22 @@ export class ClientService {
     return client;
   }
 
+  /**
+   * @param client
+   */
   async create(client: CreateClientDto): Promise<Client> {
     const newClient = new this.clientModel(client);
-    return await newClient.save();
+    const result = await this.clientModel.find({ siret: newClient.siret });
+    if (result.length) {
+      throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
+    } else {
+      return await newClient.save();
+    }
   }
 
+  /**
+   * @param id
+   */
   async delete(id: string): Promise<Client> {
     const client = await this.clientModel.findByIdAndRemove(id);
     if (!client) {
@@ -41,6 +60,10 @@ export class ClientService {
     return client;
   }
 
+  /**
+   * @param id
+   * @param updateclient
+   */
   async update(id: string, updateclient: UpdateClientDto): Promise<Client> {
     const client = await this.clientModel.findByIdAndUpdate(id, updateclient, { new: true });
     if (!client) {
@@ -48,6 +71,11 @@ export class ClientService {
     }
     return client;
   }
+
+  /**
+   * @param idClient
+   * @param idBorne
+   */
   async deleteBorne(idClient: string, idBorne: string): Promise<Client> {
     const client: Client = await this.clientModel.findById(idClient);
     const borne: Borne = await this.borneModel.findById(idBorne);

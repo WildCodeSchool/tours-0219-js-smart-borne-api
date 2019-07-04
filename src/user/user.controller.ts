@@ -11,40 +11,69 @@ import { ClientService } from '../shared/services/client.service';
 @Controller('users')
 export class UserController {
 
+  /**
+   * @param userService
+   * @param clientsService
+   */
   constructor(private readonly userService: UserService,
-    private readonly clientsService: ClientService) {
+              private readonly clientsService: ClientService) {
   }
 
+  /**
+   * List user
+   */
   @Get()
   async findAll(): Promise<User[]> {
     return await this.userService.findAll();
   }
 
+  /**
+   * User by Id
+   * @param id
+   */
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return await this.userService.findOne(id);
   }
 
+  /**
+   * Update user by Id
+   * @param id
+   * @param cardData
+   */
   @Put(':id')
   @UseGuards(AuthGuard('jwt'))
   async update(@Param('id') id: string, @Body() cardData: CreateUserDto): Promise<User> {
     return this.userService.update(id, cardData);
   }
 
+  /**
+   * Delete user by Id
+   * @param id
+   */
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   async delete(@Param('id') id: string): Promise<User> {
     return this.userService.delete(id);
   }
 
+  /**
+   * Create user
+   * @param cardData
+   */
   @Post()
   async create(@Body() cardData: CreateUserDto): Promise<User> {
     return this.userService.create(cardData);
   }
 
+  /**
+   * Associate client at a user
+   * @param idClient
+   * @param idUser
+   */
   @Put(':idClient/user/:idUser')
   async createClient(@Param('idClient') idClient: string,
-    @Param('idUser') idUser: string): Promise<User> {
+                     @Param('idUser') idUser: string): Promise<User> {
     const client: Client = await this.clientsService.findOne(idClient);
     const user: User = await this.userService.findOne(idUser);
     user.clients.push(client);
