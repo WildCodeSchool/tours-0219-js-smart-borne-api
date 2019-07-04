@@ -8,6 +8,10 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
+
+  /**
+   * @param userModel
+   */
   constructor(
         @InjectModel('Users') private readonly userModel: Model<User>,
     ) {
@@ -17,10 +21,16 @@ export class UserService {
     return await this.userModel.find();
   }
 
+  /**
+   * @param id
+   */
   async findOne(id: string): Promise<User> {
     return await this.userModel.findOne({ _id: new ObjectId(id) });
   }
 
+  /**
+   * @param user
+   */
   async create(user: CreateUserDto): Promise<User> {
     user.password = await this.getHash(user.password);
     const result = await this.userModel.create(user);
@@ -28,18 +38,32 @@ export class UserService {
     return result;
   }
 
+  /**
+   * @param id
+   * @param cardData
+   */
   async update(@Param('id') id: string, cardData: UpdateUserDto): Promise<User> {
     return await this.userModel.findByIdAndUpdate(id, cardData);
   }
 
+  /**
+   * @param id
+   */
   async delete(id: string): Promise<User> {
     return await this.userModel.findByIdAndRemove({ id });
   }
 
+  /**
+   * @param email
+   */
   async findByEmail(email: string): Promise<User> {
     return await this.userModel.findOne({ email });
   }
 
+  /**
+   * @param email
+   * @param password
+   */
   async findByUser(email: string, password: string): Promise<User> {
     return await this.userModel.findOne({
       email,
@@ -47,10 +71,17 @@ export class UserService {
     });
   }
 
+  /**
+   * @param password
+   */
   async getHash(password: string | undefined): Promise<string> {
     return await bcrypt.hash(password, 10);
   }
 
+  /**
+   * @param password
+   * @param hash
+   */
   // tslint:disable-next-line:max-line-length
   async compareHash(password: string | undefined, hash: string | undefined): Promise<boolean> {
     return await bcrypt.compare(password, hash);
