@@ -43,12 +43,13 @@ export class OffersService {
       return await newOffer.save();
     }
   }
+  
 
   /**
    * @param id
    */
   async delete(id: string): Promise<Offer> {
-    const offer =  await this.offerModel.findByIdAndRemove(id);
+    const offer =  await this.offerModel.findByIdAndRemove({ _id: new ObjectId(id) });
     if (!offer) {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
     }

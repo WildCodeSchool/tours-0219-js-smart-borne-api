@@ -133,4 +133,9 @@ export class ClientController {
                     @Param('idBorne') idBorne: string): Promise<Client> {
     return this.clientsService.deleteBorne(idClient, idBorne);
   }
+  @Delete(':idClient/offer/:idOffer')
+  async deleteOffer(@Param('idClient') idClient: string,
+                    @Param('idOffer') idOffer: string): Promise<Client> {
+    return this.clientsService.deleteOffer(idClient, idOffer);
+  }
 }

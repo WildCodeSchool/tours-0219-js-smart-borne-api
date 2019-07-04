@@ -6,6 +6,7 @@ import { CreateClientDto } from '../../client/client.dto.create';
 import { UpdateClientDto } from '../../client/client.dto.update';
 import { ObjectId } from 'mongodb';
 import { Borne } from '../interfaces/borne.interface';
+import { Offer } from '../interfaces/offers.interface';
 
 @Injectable()
 export class ClientService {
@@ -17,6 +18,7 @@ export class ClientService {
   constructor(
     @InjectModel('Clients') private readonly clientModel: Model<Client>,
     @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
+    @InjectModel('Offers') private readonly offerModel: Model<Offer>,
   ) { }
 
   async findAll(): Promise<Client[]> {
@@ -81,13 +83,21 @@ export class ClientService {
     await client.save();
     return client;
   }
-
-  /**
-   * @param idBorne
-   */
+  async deleteOffer(idClient: string, idOffer: string): Promise<Client> {
+    const client: Client = await this.clientModel.findById(idClient);
+    const offer: Offer = await this.offerModel.findById(idOffer);
+    client.offer.remove(offer);
+    await client.save();
+    return client;
+  }
+  
   async findClientByBorne(idBorne: string): Promise<Client[]> {
     // const borne: Borne = await this.borneModel.findById(idBorne);
-    const clients : Client[] = await this.clientModel.find({ 'bornes._id': idBorne });
+    const clients : Client[] = await this.clientModel.find({'bornes._id': idBorne });
+    return clients;
+  }
+  async findClientByOffer(idOffer: string): Promise<Client[]> {
+    const clients: Client[] = await this.clientModel.find({'offer._id': idOffer});
     return clients;
   }
 }

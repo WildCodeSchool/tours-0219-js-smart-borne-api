@@ -122,5 +122,10 @@ export class BorneController {
   //   await client.save();
   //   return client;
   // }
+  @Delete(':idBorne/offer/:idOffer')
+  async deleteOffer(@Param('idBorne') idBorne: string,
+                    @Param('idOffer') idOffer: string): Promise<Borne> {
+    return this.borneService.deleteOffer(idBorne, idOffer);
+  }
 
 }
