@@ -41,9 +41,9 @@ export class BorneController {
 
   @Delete(':id')
   async delete(@Param('id') idBorne: string) {
-    const clients = await this.clientsService.findClientByBorne(idBorne)
+    const clients = await this.clientsService.findClientByBorne(idBorne);
     const borne = await this.borneService.delete(idBorne);
-    
+
     const promises = [];
 
     for (let i = 0; i < clients.length ;  i++) {
