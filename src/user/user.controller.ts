@@ -1,4 +1,4 @@
-import { Get, Post, Body, Put, Delete, Param, Controller, UseGuards }
+import { Get, Post, Body, Put, Delete, Param, Controller, UseGuards, HttpException, HttpStatus }
   from '@nestjs/common';
 import { UserService } from '../shared/services/user.service';
 import { CreateUserDto } from './dto';
@@ -76,9 +76,21 @@ export class UserController {
                      @Param('idUser') idUser: string): Promise<User> {
     const client: Client = await this.clientsService.findOne(idClient);
     const user: User = await this.userService.findOne(idUser);
-    user.clients.push(client);
-    await user.save();
-    return user;
+
+    const tab = [];
+    // tslint:disable-next-line:no-increment-decrement
+    for (let i = 0; i < user.clients.length; i++) {
+      tab.push(user.clients[i]._id.toString());
+    }
+
+    const result = tab.filter(user => user === client._id.toString());
+
+    if (!result.length) {
+      user.clients.push(client);
+      await user.save();
+      return user;
+    }
+    throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
   }
 
 }
