@@ -15,11 +15,19 @@ export class AuthController {
               private readonly  userService: UserService) {
   }
 
+  /**
+   * Login
+   * @param user
+   */
   @Post('login')
   async login(@Body() user: LoginDto): Promise<User> {
     return await this.authService.authenticate(user);
   }
 
+  /**
+   * Register
+   * @param userModel
+   */
   @Post('/register')
   async register(@Body() userModel: CreateUserDto): Promise<User> {
     const emailExists = await this.userService.findByEmail(userModel.email);

@@ -7,6 +7,10 @@ import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class OffersService {
+
+  /**
+   * @param offerModel
+   */
   constructor(
     @InjectModel('Offers') private readonly offerModel: Model<Offer>,
   ) { }
@@ -15,6 +19,9 @@ export class OffersService {
     return await this.offerModel.find();
   }
 
+  /**
+   * @param id
+   */
   async findOne(id: string): Promise<Offer> {
     const offer = await this.offerModel.findOne({ _id: new ObjectId(id) });
     if (!offer) {
@@ -23,6 +30,10 @@ export class OffersService {
     return offer;
   }
 
+  /**
+   * @param id
+   * @param offerData
+   */
   async create(id: string, offerData: CreateOfferDto): Promise<Offer> {
     const newOffer = new this.offerModel(offerData);
     const result = await this.offerModel.find({ surnom: newOffer.surnom });
@@ -33,14 +44,21 @@ export class OffersService {
     }
   }
 
+  /**
+   * @param id
+   */
   async delete(id: string): Promise<Offer> {
-    const offer =  await this.offerModel.findByIdAndRemove(id);
+    const offer =  await this.offerModel.findByIdAndRemove({ _id: new ObjectId(id) });
     if (!offer) {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
     }
     return offer;
   }
 
+  /**
+   * @param id
+   * @param offerData
+   */
   async update(id: string, offerData: CreateOfferDto): Promise<Offer> {
     const offerUpdate = await this.offerModel.findByIdAndUpdate(id, offerData, { new: true });
     if (!offerData) {

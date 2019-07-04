@@ -5,11 +5,18 @@ import { ObjectId } from 'mongodb';
 import { Borne } from '../interfaces/borne.interface';
 import { CreateBorneDto } from '../../borne/dto/create-borne.dto';
 import { UpdateBorneDto } from '../../borne/dto/update-borne.dto';
+import { Offer } from '../interfaces/offers.interface';
 
 @Injectable()
 export class BorneService {
+
+  /**
+   * @param borneModel
+   * @param offerModel
+   */
   constructor(
     @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
+    @InjectModel('Offers') private readonly offerModel: Model<Offer>,
   ) {
   }
 
@@ -17,6 +24,9 @@ export class BorneService {
     return await this.borneModel.find();
   }
 
+  /**
+   * @param id
+   */
   async findOne(id: string): Promise<Borne> {
     const borne = await this.borneModel.findOne({ _id: new ObjectId(id) });
     if (!borne) {
@@ -25,6 +35,10 @@ export class BorneService {
     return borne;
   }
 
+  /**
+   * @param id
+   * @param borneData
+   */
   async create(id: string, borneData: CreateBorneDto): Promise<Borne> {
     const bornes = new (this.borneModel)(borneData);
     const result = await this.borneModel.find({ numeroSerie: bornes.numeroSerie });
@@ -35,6 +49,10 @@ export class BorneService {
     }
   }
 
+  /**
+   * @param id
+   * @param borneData
+   */
   async update(id: string, borneData: UpdateBorneDto): Promise<Borne> {
     const borne = await this.borneModel.findByIdAndUpdate(id, borneData);
     if (!borne) {
@@ -43,6 +61,9 @@ export class BorneService {
     return borne;
   }
 
+  /**
+   * @param id
+   */
   async delete(id: string): Promise<Borne> {
     const borne = await this.borneModel.findByIdAndRemove({ _id: new ObjectId(id) });
     if (!borne) {
@@ -51,4 +72,23 @@ export class BorneService {
     return borne;
   }
 
+  /**
+   * @param idBorne
+   * @param idOffer
+   */
+  async deleteOffer(idBorne: string, idOffer: string): Promise<Borne> {
+    const borne: Borne = await this.borneModel.findById(idBorne);
+    const offer: Offer = await this.offerModel.findById(idOffer);
+    borne.offers.remove(offer);
+    await borne.save();
+    return borne;
+  }
+
+  /**
+   * @param idOffer
+   */
+  async findBorneByOffer(idOffer: string): Promise<Borne[]> {
+    const bornes: Borne[] = await this.borneModel.find({ 'offers._id': idOffer });
+    return bornes;
+  }
 }
