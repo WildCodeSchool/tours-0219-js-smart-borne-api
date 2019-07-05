@@ -79,6 +79,9 @@ export class BorneService {
   async deleteOffer(idBorne: string, idOffer: string): Promise<Borne> {
     const borne: Borne = await this.borneModel.findById(idBorne);
     const offer: Offer = await this.offerModel.findById(idOffer);
+    if (!borne && !offer) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
     borne.offers.remove(offer);
     await borne.save();
     return borne;
@@ -89,6 +92,9 @@ export class BorneService {
    */
   async findBorneByOffer(idOffer: string): Promise<Borne[]> {
     const bornes: Borne[] = await this.borneModel.find({ 'offers._id': idOffer });
+    if (!bornes) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
     return bornes;
   }
 
@@ -96,8 +102,9 @@ export class BorneService {
    * @param query
    */
   async queryBorne(query: string): Promise<Borne[]> {
+    console.log(query);
     if (query && query.trim().length > 0) {
-      return this.borneModel.find({ numeroSerie: { $regex: `.*${query}.*` } });
+      return this.borneModel.find({ numeroSerie: { $regex: `.*${query}.*`  } });
     }
     return this.borneModel.find();
   }

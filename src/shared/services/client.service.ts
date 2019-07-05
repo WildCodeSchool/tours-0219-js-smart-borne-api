@@ -80,6 +80,9 @@ export class ClientService {
   async deleteBorne(idClient: string, idBorne: string): Promise<Client> {
     const client: Client = await this.clientModel.findById(idClient);
     const borne: Borne = await this.borneModel.findById(idBorne);
+    if (!borne && !client) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
     client.bornes.remove(borne);
     await client.save();
     return client;
@@ -92,6 +95,9 @@ export class ClientService {
   async deleteOffer(idClient: string, idOffer: string): Promise<Client> {
     const client: Client = await this.clientModel.findById(idClient);
     const offer: Offer = await this.offerModel.findById(idOffer);
+    if (!client && !offer) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
     client.offer.remove(offer);
     await client.save();
     return client;
@@ -101,8 +107,10 @@ export class ClientService {
    * @param idBorne
    */
   async findClientByBorne(idBorne: string): Promise<Client[]> {
-    // const borne: Borne = await this.borneModel.findById(idBorne);
     const clients : Client[] = await this.clientModel.find({ 'bornes._id': idBorne });
+    if (!clients) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
     return clients;
   }
 
@@ -111,6 +119,9 @@ export class ClientService {
    */
   async findClientByOffer(idOffer: string): Promise<Client[]> {
     const clients: Client[] = await this.clientModel.find({ 'offer._id': idOffer });
+    if (!clients) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
     return clients;
   }
 }

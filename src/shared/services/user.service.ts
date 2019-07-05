@@ -1,4 +1,4 @@
-import {HttpException, HttpStatus, Injectable, Param} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Param } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from '../../user/dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -25,7 +25,11 @@ export class UserService {
    * @param id
    */
   async findOne(id: string): Promise<User> {
-    return await this.userModel.findOne({ _id: new ObjectId(id) });
+    const user = await this.userModel.findOne({ _id: new ObjectId(id) });
+    if (!user) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   /**
@@ -43,14 +47,22 @@ export class UserService {
    * @param cardData
    */
   async update(@Param('id') id: string, cardData: UpdateUserDto): Promise<User> {
-    return await this.userModel.findByIdAndUpdate(id, cardData);
+    const user = await this.userModel.findByIdAndUpdate(id, cardData);
+    if (!user) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   /**
    * @param id
    */
   async delete(id: string): Promise<User> {
-    return await this.userModel.findByIdAndRemove({ id });
+    const user = await this.userModel.findByIdAndRemove({ id });
+    if (!user) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   /**
