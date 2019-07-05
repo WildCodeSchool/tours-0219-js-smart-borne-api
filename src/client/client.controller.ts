@@ -163,4 +163,14 @@ export class ClientController {
                     @Param('idOffer') idOffer: string): Promise<Client> {
     return this.clientsService.deleteOffer(idClient, idOffer);
   }
+
+  /**
+   * @param query
+   */
+  @ApiOperation({ title: 'Get query client' })
+  @ApiResponse({ status: 200, description: 'Return client query' })
+  @Get('search/:query')
+  async queryClient(@Param('query') query: string): Promise<Client[]> {
+    return this.clientsService.queryClient(query);
+  }
 }

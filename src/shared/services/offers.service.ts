@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateOfferDto } from '../../offers/DTO/create-offer.dto';
 import { ObjectId } from 'mongodb';
+import {Client} from "../interfaces/client.interface";
 
 @Injectable()
 export class OffersService {
@@ -65,5 +66,15 @@ export class OffersService {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
     }
     return offerUpdate;
+  }
+
+  /**
+   * @param query
+   */
+  async queryOffer(query: string): Promise<Offer[]> {
+    if (query && query.trim().length > 0) {
+      return this.offerModel.find({ client: { $regex: `.*${query}.*`  } });
+    }
+    return this.offerModel.find();
   }
 }
