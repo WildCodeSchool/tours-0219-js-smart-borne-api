@@ -13,7 +13,10 @@ import { OffersService } from '../shared/services/offers.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ClientService } from '../shared/services/client.service';
 import { BorneService } from '../shared/services/borne.service';
+import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
+
 @UseGuards(AuthGuard('jwt'))
+@ApiUseTags('offer')
 @Controller('offer')
 export class OffersController {
 
@@ -30,6 +33,8 @@ export class OffersController {
   /**
    * List of offers
    */
+  @ApiOperation({ title: 'Get all offers' })
+  @ApiResponse({ status: 200, description: 'Return all offers.' })
   @Get()
   async findAll(): Promise<Offer[]> {
     return this.offersService.findAll();
@@ -40,6 +45,9 @@ export class OffersController {
    * @param id
    * @param createOfferDto
    */
+  @ApiOperation({ title: 'Create offer' })
+  @ApiResponse({ status: 201, description: 'The offer has been successfully created.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post()
   async create(@Param('id') id: string, @Body() createOfferDto: CreateOfferDto): Promise<Offer> {
     return this.offersService.create(id, createOfferDto);
@@ -49,6 +57,8 @@ export class OffersController {
    * Offer by Id
    * @param id
    */
+  @ApiOperation({ title: 'Get offer by Id' })
+  @ApiResponse({ status: 200, description: 'Return offer by Id.' })
   @Get(':id')
   async findOne(@Param('id') id): Promise<Offer> {
     return this.offersService.findOne(id);
@@ -57,6 +67,9 @@ export class OffersController {
   /**
    * @param idOffer
    */
+  @ApiOperation({ title: 'Delete offer' })
+  @ApiResponse({ status: 201, description: 'The offer has been successfully deleted.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':id')
   async delete(@Param('id') idOffer: string) {
     const offer = await this.offersService.delete(idOffer);
@@ -83,6 +96,9 @@ export class OffersController {
    * @param createOfferDto
    * @param id
    */
+  @ApiOperation({ title: 'Update offer by Id' })
+  @ApiResponse({ status: 201, description: 'The offer has been successfully updated.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':id')
   async update(@Body() createOfferDto: CreateOfferDto, @Param('id') id): Promise<Offer> {
     return this.offersService.update(id, createOfferDto);

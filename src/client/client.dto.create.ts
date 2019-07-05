@@ -1,40 +1,41 @@
 import { IsInt, Min, Max, ValidateNested, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiModelProperty } from '@nestjs/swagger';
 
 class Coupon {
   @IsInt()
   @Min(0)
   @Max(0)
-  readonly total: number = 0;
+  @ApiModelProperty() readonly total: number = 0;
   @IsInt()
   @Min(0)
   @Max(0)
-  readonly imprimer: number = 0;
+  @ApiModelProperty() readonly imprimer: number = 0;
   @IsInt()
   @Min(0)
   @Max(0)
-  readonly restant: number = 0;
+  @ApiModelProperty() readonly restant: number = 0;
 }
 
 export class CreateClientDto {
-  readonly name: string;
-  readonly siret: string;
-  readonly raisonSocial: string;
-  readonly address: {
+  @ApiModelProperty() readonly name: string;
+  @ApiModelProperty() readonly siret: string;
+  @ApiModelProperty() readonly raisonSocial: string;
+  @ApiModelProperty() readonly address: {
     readonly numero: string;
     readonly nomRue: string;
     readonly departement: string;
     readonly ville: string;
   };
-  readonly contrat: {
+  @ApiModelProperty() readonly contrat: {
     readonly debut: string;
     readonly fin: string;
   };
-  readonly siege: {
+  @ApiModelProperty() readonly siege: {
     readonly email: string;
     readonly telephone: string;
   };
-  readonly gerant: {
+  @ApiModelProperty() readonly gerant: {
     readonly name: string;
     readonly email: string;
     readonly telephone: string;
@@ -42,5 +43,5 @@ export class CreateClientDto {
 
   @Type(() => Coupon)
   @ValidateNested()
-  readonly coupon: Coupon;
+  @ApiModelProperty() readonly coupon: Coupon;
 }

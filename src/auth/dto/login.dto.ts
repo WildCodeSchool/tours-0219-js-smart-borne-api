@@ -1,4 +1,6 @@
+import { ApiModelProperty } from '@nestjs/swagger';
+
 export class LoginDto{
-  readonly email: string;
-  readonly password: string;
+  @ApiModelProperty() readonly email: string;
+  @ApiModelProperty() readonly password: string;
 }

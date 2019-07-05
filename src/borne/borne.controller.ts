@@ -8,8 +8,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { Offer } from '../shared/interfaces/offers.interface';
 import { OffersService } from '../shared/services/offers.service';
 import { ClientService } from '../shared/services/client.service';
+import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard('jwt'))
+@ApiUseTags('borne')
 @Controller('bornes')
 export class BorneController {
 
@@ -27,6 +29,8 @@ export class BorneController {
   /**
    * List of borne
    */
+  @ApiOperation({ title: 'Get all borne' })
+  @ApiResponse({ status: 200, description: 'Return all borne.' })
   @Get()
   async findAll(): Promise<Borne[]> {
     return await this.borneService.findAll();
@@ -36,6 +40,8 @@ export class BorneController {
    * Borne by Id
    * @param id
    */
+  @ApiOperation({ title: 'Get borne by Id' })
+  @ApiResponse({ status: 200, description: 'Return borne by Id.' })
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Borne> {
     return await this.borneService.findOne(id);
@@ -46,6 +52,9 @@ export class BorneController {
    * @param id
    * @param borneData
    */
+  @ApiOperation({ title: 'Create borne' })
+  @ApiResponse({ status: 201, description: 'The borne has been successfully created.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post()
   async create(@Param('id') id: string, @Body() borneData: CreateBorneDto): Promise<Borne> {
     return this.borneService.create(id, borneData);
@@ -56,6 +65,9 @@ export class BorneController {
    * @param id
    * @param borneData
    */
+  @ApiOperation({ title: 'Update borne' })
+  @ApiResponse({ status: 201, description: 'The borne has been successfully updated.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':id')
   async update(@Param('id') id: string, @Body() borneData: UpdateBorneDto): Promise<Borne> {
     return this.borneService.update(id, borneData);
@@ -65,6 +77,9 @@ export class BorneController {
    * Delete borne by Id
    * @param idBorne
    */
+  @ApiOperation({ title: 'Delete borne' })
+  @ApiResponse({ status: 201, description: 'The borne has been successfully deleted.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':id')
   async delete(@Param('id') idBorne: string) {
     const clients = await this.clientsService.findClientByBorne(idBorne);
@@ -86,6 +101,9 @@ export class BorneController {
    * @param idOffer
    * @param idBorne
    */
+  @ApiOperation({ title: 'Associate borne at offer' })
+  @ApiResponse({ status: 201, description: 'The associate borne has been successfully.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':idBorne/offer/:idOffer')
   async createOffer(@Param('idOffer') idOffer: string,
                     @Param('idBorne') idBorne: string): Promise<Borne> {
@@ -111,10 +129,23 @@ export class BorneController {
    * @param idBorne
    * @param idOffer
    */
+  @ApiOperation({ title: 'Delete offer by borne' })
+  @ApiResponse({ status: 201, description: 'The offer has been successfully deleted.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':idBorne/offer/:idOffer')
   async deleteOffer(@Param('idBorne') idBorne: string,
                     @Param('idOffer') idOffer: string): Promise<Borne> {
     return this.borneService.deleteOffer(idBorne, idOffer);
+  }
+
+  /**
+   * @param query
+   */
+  @ApiOperation({ title: 'Get query borne' })
+  @ApiResponse({ status: 200, description: 'Return borne query' })
+  @Get('search/:query')
+  async queryBorne(@Param('query') query: string): Promise<Borne[]> {
+    return this.borneService.queryBorne(query);
   }
 
 }

@@ -1,27 +1,29 @@
+import { ApiModelProperty } from '@nestjs/swagger';
+
 export class UpdateClientDto {
-  readonly name: string;
-  readonly siret: string;
-  readonly raisonSocial: string;
-  readonly address: {
+  @ApiModelProperty() readonly name: string;
+  @ApiModelProperty() readonly siret: string;
+  @ApiModelProperty() readonly raisonSocial: string;
+  @ApiModelProperty() readonly address: {
     readonly numero: string;
     readonly nomRue: string;
     readonly departement: string;
     readonly ville: string;
   };
-  contrat: {
+  @ApiModelProperty() contrat: {
     readonly debut: string;
     readonly fin: string;
   };
-  siege: {
+  @ApiModelProperty() siege: {
     readonly email: string;
     readonly telephone: string;
   };
-  gerant: {
+  @ApiModelProperty() gerant: {
     readonly name: string;
     readonly email: string;
     readonly telephone: string;
   };
-  coupon:{
+  @ApiModelProperty() coupon:{
     readonly total: number;
     readonly imprimer: number;
     readonly restant: number;

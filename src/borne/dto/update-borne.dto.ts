@@ -1,13 +1,15 @@
+import { ApiModelProperty } from '@nestjs/swagger';
+
 export class UpdateBorneDto {
-  readonly numeroSerie: String;
-  readonly address: {
+  @ApiModelProperty() readonly numeroSerie: String;
+  @ApiModelProperty() readonly address: {
     readonly numero: String,
     readonly rue: String,
     readonly ville: String,
     readonly codePostal: String,
   };
-  readonly dateInstallation: String;
-  readonly problemesTechniques: String;
-  readonly styliseeClient: String;
-  readonly details: String;
+  @ApiModelProperty() readonly dateInstallation: String;
+  @ApiModelProperty() readonly problemesTechniques: String;
+  @ApiModelProperty() readonly styliseeClient: String;
+  @ApiModelProperty() readonly details: String;
 }

@@ -91,4 +91,14 @@ export class BorneService {
     const bornes: Borne[] = await this.borneModel.find({ 'offers._id': idOffer });
     return bornes;
   }
+
+  /**
+   * @param query
+   */
+  async queryBorne(query: string): Promise<Borne[]> {
+    if (query && query.trim().length > 0) {
+      return this.borneModel.find({ numeroSerie: { $regex: `.*${query}.*` } });
+    }
+    return this.borneModel.find();
+  }
 }
