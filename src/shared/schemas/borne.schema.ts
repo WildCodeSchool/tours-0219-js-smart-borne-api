@@ -10,27 +10,23 @@ export const borneSchema = new mongoose.Schema(
       ville: String,
       codePostal: String,
     },
-    taux: {
-      bacUn: Number,
-      bacDeux: Number,
-    },
     dateInstallation: String,
     coupon: {
       restant: Number,
       imprimer: Number,
     },
     plastique: {
-      utilise: Number,
+      taux: Number,
       total: Number,
     },
-    cannette: {
-      utilise: Number,
+    metal: {
+      taux: Number,
       total: Number,
     },
     total: {
       recycle: Number,
       remise: Number,
-      cannettes: Number,
+      coupons: Number,
 
     },
     problemesTechniques: String,

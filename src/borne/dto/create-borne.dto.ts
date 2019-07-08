@@ -2,17 +2,6 @@ import { IsInt, Min, Max, ValidateNested, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-class Taux {
-  @IsInt()
-  @Min(0)
-  @Max(0)
-  @ApiModelProperty() readonly bacUn: number = 0;
-  @IsInt()
-  @Min(0)
-  @Max(0)
-  @ApiModelProperty() readonly bacDeux: number = 0;
-}
-
 class Coupon {
   @IsInt()
   @Min(0)
@@ -27,18 +16,18 @@ class Plastique {
   @IsInt()
   @Min(0)
   @Max(0)
-  @ApiModelProperty() readonly utilise: number = 0;
+  @ApiModelProperty() readonly taux: number = 0;
   @IsInt()
   @Min(0)
   @Max(0)
   @ApiModelProperty() readonly total: number = 0;
 }
 
-class Cannette {
+class Metal {
   @IsInt()
   @Min(0)
   @Max(0)
-  @ApiModelProperty() readonly utilise: number = 0;
+  @ApiModelProperty() readonly taux: number = 0;
   @IsInt()
   @Min(0)
   @Max(0)
@@ -57,7 +46,7 @@ class Total {
   @IsInt()
   @Min(0)
   @Max(0)
-  @ApiModelProperty() readonly cannettes: number = 0;
+  @ApiModelProperty() readonly coupons: number = 0;
 
 }
 
@@ -75,13 +64,10 @@ export class CreateBorneDto {
   @ValidateNested()
   @ApiModelProperty()readonly plastique: Plastique;
 
-  @Type(() => Cannette)
+  @Type(() => Metal)
   @ValidateNested()
-  @ApiModelProperty() readonly cannette: Cannette;
+  @ApiModelProperty() readonly metal: Metal;
 
-  @Type(() => Taux)
-  @ValidateNested()
-  @ApiModelProperty() readonly taux: Taux;
   @IsNotEmpty()
   @ApiModelProperty() readonly dateInstallation: string;
 
@@ -92,6 +78,7 @@ export class CreateBorneDto {
   @Type(() => Total)
   @ValidateNested()
   @ApiModelProperty() readonly total: Total;
+  
   @ApiModelProperty() readonly problemesTechniques: string;
   @ApiModelProperty() readonly styliseeClient: string;
   @ApiModelProperty() readonly details: string;
