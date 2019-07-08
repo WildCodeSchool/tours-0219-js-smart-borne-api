@@ -48,7 +48,7 @@ export class DataController {
    */
   @ApiOperation({ title: 'Get data by Id at days' })
   @ApiResponse({ status: 200, description: 'Return data by Id by days.' })
-  @Get(':id/days')
+  @Get('/borne/:id/days')
   findDays(@Param('id') id): Promise<Data[]> {
     return this.dataService.findDays(id);
   }
@@ -59,7 +59,7 @@ export class DataController {
    */
   @ApiOperation({ title: 'Get data by Id at days' })
   @ApiResponse({ status: 200, description: 'Return data by Id at week.' })
-  @Get(':id/weeks')
+  @Get('/borne/:id/weeks')
   findWeeks(@Param('id') id): Promise<Data[]> {
     return this.dataService.findWeeks(id);
   }
@@ -70,7 +70,7 @@ export class DataController {
    */
   @ApiOperation({ title: 'Get data by Id at month' })
   @ApiResponse({ status: 200, description: 'Return data by Id at mont.' })
-  @Get(':id/months')
+  @Get('/borne/:id/months')
   findMonths(@Param('id') id): Promise<Data[]> {
     return this.dataService.findMonths(id);
   }
