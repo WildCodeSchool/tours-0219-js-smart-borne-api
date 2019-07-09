@@ -12,4 +12,5 @@ export const offerSchema = new mongoose.Schema({
     imprime: Number,
     total: String,
   },
+  details: String,
 });

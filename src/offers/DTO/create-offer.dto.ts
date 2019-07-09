@@ -16,6 +16,7 @@ class Contrat {
 
 export class CreateOfferDto {
 
+  @ApiModelProperty() readonly surnom: string;
   @ApiModelProperty() readonly client: string;
   @ApiModelProperty() readonly remise: string;
 
@@ -26,4 +27,5 @@ export class CreateOfferDto {
   @ValidateNested()
   @ApiModelProperty() readonly coupon: Coupon;
   @ApiModelProperty() readonly total: string;
+  @ApiModelProperty() readonly details: string;
 }
