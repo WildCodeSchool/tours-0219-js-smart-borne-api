@@ -50,16 +50,20 @@ class Total {
 
 }
 
+class Address {
+  @ApiModelProperty() readonly numero: string;
+  @ApiModelProperty() readonly rue: string;
+  @ApiModelProperty()  readonly ville: string;
+  @ApiModelProperty()   readonly codePostal: string;
+}
+
 export class CreateBorneDto {
   @IsNotEmpty()
   @ApiModelProperty() readonly numeroSerie: string;
   @IsNotEmpty()
-  @ApiModelProperty() readonly address: {
-    readonly numero: string,
-    readonly rue: string,
-    readonly ville: string,
-    readonly codePostal: string,
-  };
+  @Type(() => Address)
+  @ValidateNested()
+  @ApiModelProperty() readonly address: Address;
   @Type(() => Plastique)
   @ValidateNested()
   @ApiModelProperty()readonly plastique: Plastique;
@@ -78,7 +82,7 @@ export class CreateBorneDto {
   @Type(() => Total)
   @ValidateNested()
   @ApiModelProperty() readonly total: Total;
-  
+
   @ApiModelProperty() readonly problemesTechniques: string;
   @ApiModelProperty() readonly styliseeClient: string;
   @ApiModelProperty() readonly details: string;
