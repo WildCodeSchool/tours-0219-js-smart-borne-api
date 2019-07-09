@@ -12,4 +12,5 @@ export interface Offer extends Document {
     imprime: Number;
     total: String;
   };
+  details: String;
 }
