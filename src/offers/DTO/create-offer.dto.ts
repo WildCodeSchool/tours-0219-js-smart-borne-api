@@ -9,15 +9,19 @@ class Coupon {
   @ApiModelProperty() readonly imprime: number = 0;
 }
 
+class Contrat {
+  @ApiModelProperty() readonly debut: string;
+  @ApiModelProperty() readonly fin: string;
+}
+
 export class CreateOfferDto {
 
   @ApiModelProperty() readonly client: string;
   @ApiModelProperty() readonly remise: string;
 
-  @ApiModelProperty() readonly contrat: {
-    readonly debut: string;
-    readonly fin: string;
-  };
+  @Type(() => Contrat)
+  @ValidateNested()
+  @ApiModelProperty() readonly contrat: Contrat;
   @Type(() => Coupon)
   @ValidateNested()
   @ApiModelProperty() readonly coupon: Coupon;
