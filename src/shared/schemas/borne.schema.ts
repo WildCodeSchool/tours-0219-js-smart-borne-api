@@ -12,7 +12,6 @@ export const borneSchema = new mongoose.Schema(
     },
     dateInstallation: String,
     coupon: {
-      restant: Number,
       imprimer: Number,
     },
     plastique: {

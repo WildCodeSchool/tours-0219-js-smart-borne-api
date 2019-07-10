@@ -6,10 +6,6 @@ class Coupon {
   @IsInt()
   @Min(0)
   @Max(0)
-  @ApiModelProperty() readonly restant: number = 0;
-  @IsInt()
-  @Min(0)
-  @Max(0)
   @ApiModelProperty() readonly imprimer: number = 0;
 }
 class Plastique {
