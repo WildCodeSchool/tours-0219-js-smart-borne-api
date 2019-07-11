@@ -6,6 +6,7 @@ import { Borne } from '../interfaces/borne.interface';
 import { CreateBorneDto } from '../../borne/dto/create-borne.dto';
 import { UpdateBorneDto } from '../../borne/dto/update-borne.dto';
 import { Offer } from '../interfaces/offers.interface';
+import { Client } from '../interfaces/client.interface';
 
 @Injectable()
 export class BorneService {
@@ -17,6 +18,7 @@ export class BorneService {
   constructor(
     @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
     @InjectModel('Offers') private readonly offerModel: Model<Offer>,
+    @InjectModel('Clients') private readonly clientModel: Model<Client>,
   ) {
   }
 
@@ -71,7 +73,23 @@ export class BorneService {
     }
     return borne;
   }
-
+  async deleteBorne(idClient: string, idBorne: string): Promise<Client> {
+    const client: Client = await this.clientModel.findById(idClient);
+    const borne: Borne = await this.borneModel.findById(idBorne);
+    if (!borne && !client) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    client.bornes.remove(borne);
+    await client.save();
+    return client;
+  }
+  // async deleteClient(idBorne: string, idClient: string): Promise<Borne> {
+  //   const borne: Borne = await this.borneModel.findById(idBorne);
+  //   const client: Client = await this.clientModel.findById(idClient);
+  //   borne.client.remove(client)
+  //   await borne.save()
+  //   return borne
+  // }
   /**
    * @param idBorne
    * @param idOffer

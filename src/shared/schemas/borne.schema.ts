@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { offerSchema } from './offers.schema';
+import { client } from './client.schema';
 
 export const borneSchema = new mongoose.Schema(
   {
@@ -33,6 +34,7 @@ export const borneSchema = new mongoose.Schema(
     styliseeClient: String,
     details: String,
     offers: [offerSchema],
+    client: { ...client },
   },
   {
     versionKey: false,

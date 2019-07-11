@@ -1,5 +1,5 @@
 import { Get, Post, Body, Put, Delete, Param, Controller, UseGuards, HttpException, HttpStatus }
-from '@nestjs/common';
+  from '@nestjs/common';
 import { BorneService } from '../shared/services/borne.service';
 import { CreateBorneDto } from './dto/create-borne.dto';
 import { UpdateBorneDto } from './dto/update-borne.dto';
@@ -9,6 +9,7 @@ import { Offer } from '../shared/interfaces/offers.interface';
 import { OffersService } from '../shared/services/offers.service';
 import { ClientService } from '../shared/services/client.service';
 import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
+import { Client } from '../shared/interfaces/client.interface';
 
 @UseGuards(AuthGuard('jwt'))
 @ApiUseTags('borne')
@@ -97,7 +98,26 @@ export class BorneController {
   }
 
   /**
-   * Associate borne at a offer
+ * Associate client at a borne
+ * @param idClient
+ * @param idBorne
+ */
+  @ApiOperation({ title: 'Associate client at borne' })
+  @ApiResponse({ status: 201, description: 'The associate borne has been successfully.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Put(':idBorne/client/:idClient')
+  async createClient(@Param('idClient') idClient: string,
+    @Param('idBorne') idBorne: string): Promise<Borne> {
+    const client: Client = await this.clientsService.findOne(idClient);
+    const borne: Borne = await this.borneService.findOne(idBorne);
+    console.log(borne);
+    borne.client = client;
+    await borne.save();
+    return borne;
+  }
+
+  /**
+   * Associate borne to a offer
    * @param idOffer
    * @param idBorne
    */
@@ -106,7 +126,7 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':idBorne/offer/:idOffer')
   async createOffer(@Param('idOffer') idOffer: string,
-                    @Param('idBorne') idBorne: string): Promise<Borne> {
+    @Param('idBorne') idBorne: string): Promise<Borne> {
     const borne: Borne = await this.borneService.findOne(idBorne);
     const offers: Offer = await this.offerService.findOne(idOffer);
 
@@ -134,7 +154,7 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':idBorne/offer/:idOffer')
   async deleteOffer(@Param('idBorne') idBorne: string,
-                    @Param('idOffer') idOffer: string): Promise<Borne> {
+    @Param('idOffer') idOffer: string): Promise<Borne> {
     return this.borneService.deleteOffer(idBorne, idOffer);
   }
 
