@@ -12,7 +12,6 @@ export interface Borne extends Document {
   };
   dateInstallation: String;
   coupon: {
-    restant: Number,
     imprimer: Number,
   };
   plastique: {

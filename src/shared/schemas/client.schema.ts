@@ -34,9 +34,16 @@ export const client = {
   plastiqueTotal: Number,
   cannetteTotal: Number,
   offer: [offerSchema],
+
 }
 
-export const clientSchema = new mongoose.Schema({
-  ...client,
-  bornes: [borneSchema],
-});
+export const clientSchema = new mongoose.Schema(
+  {
+    ...client,
+    bornes: [borneSchema],
+
+  },
+  {
+    versionKey: false,
+  });
+
