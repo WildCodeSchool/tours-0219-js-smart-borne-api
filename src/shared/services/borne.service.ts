@@ -7,6 +7,7 @@ import { CreateBorneDto } from '../../borne/dto/create-borne.dto';
 import { UpdateBorneDto } from '../../borne/dto/update-borne.dto';
 import { Offer } from '../interfaces/offers.interface';
 import { Client } from '../interfaces/client.interface';
+import {Types } from 'mongoose';
 
 @Injectable()
 export class BorneService {
@@ -83,13 +84,12 @@ export class BorneService {
     await client.save();
     return client;
   }
-  // async deleteClient(idBorne: string, idClient: string): Promise<Borne> {
-  //   const borne: Borne = await this.borneModel.findById(idBorne);
-  //   const client: Client = await this.clientModel.findById(idClient);
-  //   borne.client.remove(client)
-  //   await borne.save()
-  //   return borne
-  // }
+  async deleteClient(idBorne: string, idClient: string): Promise<Borne> {
+    const borne: Borne = await this.borneModel.findById(idBorne);
+    borne.client.remove()
+    await borne.save()
+    return borne
+  }
   /**
    * @param idBorne
    * @param idOffer
@@ -115,7 +115,10 @@ export class BorneService {
     }
     return bornes;
   }
-
+  async findBorneByClient(idClient: string): Promise<Borne[]> {
+    const bornes: Borne[] = await this.borneModel.find({'client._id': Types.ObjectId(idClient)});
+    return bornes;
+  }
   /**
    * @param query
    */

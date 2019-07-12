@@ -61,6 +61,24 @@ export class ClientController {
   create(@Body() createClientDto: CreateClientDto): Promise<Client> {
     return this.clientsService.create(createClientDto);
   }
+  // @ApiOperation({ title: 'Delete borne' })
+  // @ApiResponse({ status: 201, description: 'The borne has been successfully deleted.' })
+  // @ApiResponse({ status: 403, description: 'Forbidden.' })
+  // @Delete(':id')
+  // async delete(@Param('id') idBorne: string) {
+  //   const clients = await this.clientsService.findClientByBorne(idBorne);
+  //   const borne = await this.borneService.delete(idBorne);
+
+  //   const promises = [];
+
+  //   // tslint:disable-next-line:no-increment-decrement
+  //   for (let i = 0; i < clients.length; i++) {
+  //     clients[i].bornes.remove(borne);
+  //     promises.push(clients[i].save());
+  //   }
+
+  //   return Promise.all(promises);
+  // }
 
   /**
    * Delete client by Id
@@ -70,8 +88,16 @@ export class ClientController {
   @ApiResponse({ status: 201, description: 'The client has been successfully deleted.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':id')
-  delete(@Param('id') id): Promise<Client> {
-    return this.clientsService.delete(id);
+  async delete(@Param('id') idClient: string){
+    await this.clientsService.delete(idClient);
+    const bornes = await this.borneService.findBorneByClient(idClient);
+    const promises = [];
+
+    for (let i = 0; i < bornes.length; i++) {
+      bornes[i].client.remove();
+      promises.push(bornes[i].save());
+    }
+    return Promise.all(promises);
   }
 
   /**
