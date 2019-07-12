@@ -97,5 +97,8 @@ export class BorneService {
     }
     return bornes;
   }
-
+  async findBorneByClient(idClient: string): Promise<Borne[]> {
+    const bornes: Borne[] = await this.borneModel.find({'client._id': Types.ObjectId(idClient)});
+    return bornes;
+  }
 }

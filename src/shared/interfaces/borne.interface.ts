@@ -1,5 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { Offer } from './offers.interface';
+import { Client } from './client.interface';
 
 export interface Borne extends Document {
   numeroSerie: String;
@@ -30,4 +31,6 @@ export interface Borne extends Document {
   styliseeClient: String;
   details: String;
   offers: Types.DocumentArray<Offer>;
+  client: Client;
+
 }
