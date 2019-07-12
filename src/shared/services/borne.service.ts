@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { Borne } from '../interfaces/borne.interface';
 import { CreateBorneDto } from '../../borne/dto/create-borne.dto';
@@ -98,7 +98,7 @@ export class BorneService {
     return bornes;
   }
   async findBorneByClient(idClient: string): Promise<Borne[]> {
-    const bornes: Borne[] = await this.borneModel.find({'client._id': Types.ObjectId(idClient)});
+    const bornes: Borne[] = await this.borneModel.find({ 'client._id': Types.ObjectId(idClient) });
     return bornes;
   }
 }
