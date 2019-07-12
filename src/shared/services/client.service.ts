@@ -125,13 +125,4 @@ export class ClientService {
     return clients;
   }
 
-  /**
-   * @param query
-   */
-  async queryClient(query: string): Promise<Client[]> {
-    if (query && query.trim().length > 0) {
-      return this.clientModel.find({ name: { $regex: `.*${query}.*`  } });
-    }
-    return this.clientModel.find();
-  }
 }

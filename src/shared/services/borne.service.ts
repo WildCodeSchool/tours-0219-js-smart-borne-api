@@ -98,14 +98,4 @@ export class BorneService {
     return bornes;
   }
 
-  /**
-   * @param query
-   */
-  async queryBorne(query: string): Promise<Borne[]> {
-    console.log(query);
-    if (query && query.trim().length > 0) {
-      return this.borneModel.find({ numeroSerie: { $regex: `.*${query}.*`  } });
-    }
-    return this.borneModel.find();
-  }
 }

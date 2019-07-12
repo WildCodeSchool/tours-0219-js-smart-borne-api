@@ -138,14 +138,4 @@ export class BorneController {
     return this.borneService.deleteOffer(idBorne, idOffer);
   }
 
-  /**
-   * @param query
-   */
-  @ApiOperation({ title: 'Get query borne' })
-  @ApiResponse({ status: 200, description: 'Return borne query' })
-  @Get('search/:query')
-  async queryBorne(@Param('query') query: string): Promise<Borne[]> {
-    return this.borneService.queryBorne(query);
-  }
-
 }
