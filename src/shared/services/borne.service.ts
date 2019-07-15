@@ -7,7 +7,7 @@ import { CreateBorneDto } from '../../borne/dto/create-borne.dto';
 import { UpdateBorneDto } from '../../borne/dto/update-borne.dto';
 import { Offer } from '../interfaces/offers.interface';
 import { Client } from '../interfaces/client.interface';
-import {Types } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class BorneService {
@@ -53,6 +53,40 @@ export class BorneService {
   }
 
   /**
+  *
+  * @param idBorne
+  * @param client
+  */
+  async addClient(idBorne: string, client: Client): Promise<Borne> {
+    const borne: Borne = await this.findOne(idBorne);
+    borne.client = client;
+    await borne.save();
+    return borne;
+  }
+
+  async hasClient(idBorne: string, idClient: string): Promise<Boolean> {
+    const borne = await this.borneModel.findById(idBorne);
+    if (borne.client && borne.client._id === idClient) {
+      return true;
+    }
+    return false;
+  }
+  /**
+  *
+  * @param idBorne
+  * @param offer
+  */
+  async addOffer(idBorne: string, offer: Offer): Promise<Borne> {
+    const borne: Borne = await this.findOne(idBorne);
+    if (!borne) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+    borne.offers.push(offer);
+    await borne.save();
+    return borne;
+  }
+
+  /**
    * @param id
    * @param borneData
    */
@@ -84,11 +118,13 @@ export class BorneService {
     await client.save();
     return client;
   }
+
   async deleteClient(idBorne: string, idClient: string): Promise<Borne> {
     const borne: Borne = await this.borneModel.findById(idBorne);
-    borne.client.remove()
-    await borne.save()
-    return borne
+    // borne.client.remove();
+    borne.set('client', null)
+    await borne.save();
+    return borne;
   }
   /**
    * @param idBorne
@@ -116,7 +152,7 @@ export class BorneService {
     return bornes;
   }
   async findBorneByClient(idClient: string): Promise<Borne[]> {
-    const bornes: Borne[] = await this.borneModel.find({'client._id': Types.ObjectId(idClient)});
+    const bornes: Borne[] = await this.borneModel.find({ 'client._id': Types.ObjectId(idClient) });
     return bornes;
   }
   /**
@@ -125,7 +161,7 @@ export class BorneService {
   async queryBorne(query: string): Promise<Borne[]> {
     console.log(query);
     if (query && query.trim().length > 0) {
-      return this.borneModel.find({ numeroSerie: { $regex: `.*${query}.*`  } });
+      return this.borneModel.find({ numeroSerie: { $regex: `.*${query}.*` } });
     }
     return this.borneModel.find();
   }

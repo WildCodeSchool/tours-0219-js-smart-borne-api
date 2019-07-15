@@ -3,7 +3,7 @@ import { borneSchema } from './borne.schema';
 import { offerSchema } from './offers.schema';
 
 export const client = {
-  _id: mongoose.Types.ObjectId,
+  //_id: mongoose.Types.ObjectId,
   name: String,
   siret: String,
   raisonSocial: String,
