@@ -88,11 +88,12 @@ export class ClientController {
   @ApiResponse({ status: 201, description: 'The client has been successfully deleted.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':id')
-  async delete(@Param('id') idClient: string){
+  async delete(@Param('id') idClient: string) {
     await this.clientsService.delete(idClient);
     const bornes = await this.borneService.findBorneByClient(idClient);
     const promises = [];
 
+    // tslint:disable-next-line:no-increment-decrement
     for (let i = 0; i < bornes.length; i++) {
       bornes[i].client.remove();
       promises.push(bornes[i].save());
