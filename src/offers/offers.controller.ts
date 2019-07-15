@@ -104,13 +104,4 @@ export class OffersController {
     return this.offersService.update(id, createOfferDto);
   }
 
-  /**
-   * @param query
-   */
-  @ApiOperation({ title: 'Get query offer' })
-  @ApiResponse({ status: 200, description: 'Return offer query' })
-  @Get('search/:query')
-  async queryOffer(@Param('query') query: string): Promise<Offer[]> {
-    return this.offersService.queryOffer(query);
-  }
 }

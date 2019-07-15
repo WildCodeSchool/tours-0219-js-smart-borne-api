@@ -3,7 +3,6 @@ import { borneSchema } from './borne.schema';
 import { offerSchema } from './offers.schema';
 
 export const client = {
-  //_id: mongoose.Types.ObjectId,
   name: String,
   siret: String,
   raisonSocial: String,
@@ -35,7 +34,7 @@ export const client = {
   cannetteTotal: Number,
   offer: [offerSchema],
 
-}
+};
 
 export const clientSchema = new mongoose.Schema(
   {
@@ -46,4 +45,3 @@ export const clientSchema = new mongoose.Schema(
   {
     versionKey: false,
   });
-
