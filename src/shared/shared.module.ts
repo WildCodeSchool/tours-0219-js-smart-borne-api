@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { OffersService } from './services/offers.service';
 import { offerSchema } from './schemas/offers.schema';
 
-// CLIENT
+// CLIENTS
 import { ClientService } from './services/client.service';
 import { clientSchema } from './schemas/client.schema';
 
@@ -13,7 +13,7 @@ import { clientSchema } from './schemas/client.schema';
 import { BorneService } from './services/borne.service';
 import { borneSchema } from './schemas/borne.schema';
 
-//
+// USERS
 import { userSchema } from './schemas/user.shema';
 import { UserService } from './services/user.service';
 

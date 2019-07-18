@@ -16,7 +16,7 @@ class Contrat {
 
 export class CreateOfferDto {
 
-  @ApiModelProperty() readonly surnom: string;
+  @ApiModelProperty() readonly pseudo: string;
   @ApiModelProperty() readonly client: string;
   @ApiModelProperty() readonly remise: string;
 

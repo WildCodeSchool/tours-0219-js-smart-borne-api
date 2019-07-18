@@ -5,6 +5,7 @@ import { client } from './client.schema';
 export const borneSchema = new mongoose.Schema(
   {
     numeroSerie: String,
+    pseudo: String,
     address: {
       numero: String,
       rue: String,

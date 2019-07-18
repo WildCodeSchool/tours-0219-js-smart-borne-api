@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 export const offerSchema = new mongoose.Schema(
   {
-    surnom: String,
+    pseudo: String,
     client: String,
     remise: String,
     contrat: {
