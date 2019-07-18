@@ -6,6 +6,8 @@ import { Borne } from '../interfaces/borne.interface';
 import { CreateBorneDto } from '../../borne/dto/create-borne.dto';
 import { UpdateBorneDto } from '../../borne/dto/update-borne.dto';
 import { Offer } from '../interfaces/offers.interface';
+import { Client } from '../interfaces/client.interface';
+// import { Types } from 'mongoose';
 
 @Injectable()
 export class BorneService {
@@ -17,6 +19,7 @@ export class BorneService {
   constructor(
     @InjectModel('Bornes') private readonly borneModel: Model<Borne>,
     @InjectModel('Offers') private readonly offerModel: Model<Offer>,
+    @InjectModel('Clients') private readonly clientModel: Model<Client>,
   ) {
   }
 
@@ -50,6 +53,48 @@ export class BorneService {
   }
 
   /**
+  *
+  * @param idBorne
+  * @param client
+  */
+  async addClient(idBorne: string, client: Client): Promise<Borne> {
+    const borne: Borne = await this.findOne(idBorne);
+    borne.client = client;
+    await borne.save();
+    return borne;
+  }
+
+  async hasClient(idBorne: string, idClient: string): Promise<Boolean> {
+    const borne = await this.borneModel.findById(idBorne);
+    if (borne.client && borne.client._id === idClient) {
+      return true;
+    }
+    return false;
+  }
+
+  async hasOffer(idBorne: string, idOffer: string): Promise<Boolean> {
+    const borne = await this.borneModel.findById(idBorne);
+    if (borne.offers.id(idOffer)) {
+      return true;
+    }
+    return false;
+  }
+  /**
+  *
+  * @param idBorne
+  * @param offer
+  */
+  async addOffer(idBorne: string, offer: Offer): Promise<Borne> {
+    const borne: Borne = await this.findOne(idBorne);
+    if (!borne) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+    borne.offers.push(offer);
+    await borne.save();
+    return borne;
+  }
+
+  /**
    * @param id
    * @param borneData
    */
@@ -57,6 +102,14 @@ export class BorneService {
     const borne = await this.borneModel.findByIdAndUpdate(id, borneData);
     if (!borne) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    const client = await this.clientModel.findOne({'bornes._id':  new ObjectId(id) });
+
+    if (client) {
+      const borne = client.bornes.id(id);
+      borne.set(borneData);
+      await client.save();
     }
     return borne;
   }
@@ -71,7 +124,24 @@ export class BorneService {
     }
     return borne;
   }
+  async deleteBorne(idClient: string, idBorne: string): Promise<Client> {
+    const client: Client = await this.clientModel.findById(idClient);
+    const borne: Borne = await this.borneModel.findById(idBorne);
+    if (!borne && !client) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    client.bornes.remove(borne);
+    await client.save();
+    return client;
+  }
 
+  async deleteClient(idBorne: string, idClient: string): Promise<Borne> {
+    const borne: Borne = await this.borneModel.findById(idBorne);
+    // borne.client.remove();
+    borne.set('client', null)
+    await borne.save();
+    return borne;
+  }
   /**
    * @param idBorne
    * @param idOffer
@@ -100,5 +170,15 @@ export class BorneService {
   async findBorneByClient(idClient: string): Promise<Borne[]> {
     const bornes: Borne[] = await this.borneModel.find({ 'client._id': Types.ObjectId(idClient) });
     return bornes;
+  }
+  /**
+   * @param query
+   */
+  async queryBorne(query: string): Promise<Borne[]> {
+    console.log(query);
+    if (query && query.trim().length > 0) {
+      return this.borneModel.find({ numeroSerie: { $regex: `.*${query}.*` } });
+    }
+    return this.borneModel.find();
   }
 }

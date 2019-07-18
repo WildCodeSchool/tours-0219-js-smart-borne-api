@@ -1,5 +1,7 @@
-import {Controller, Get, Post, Put, Delete, Body, Param, UseGuards,
-  HttpException, HttpStatus, HttpCode}
+import {
+  Controller, Get, Post, Put, Delete, Body, Param, UseGuards,
+  BadRequestException
+}
   from '@nestjs/common';
 import { CreateClientDto } from './client.dto.create';
 import { UpdateClientDto } from './client.dto.update';
@@ -7,7 +9,6 @@ import { ClientService } from '../shared/services/client.service';
 import { Client } from '../shared/interfaces/client.interface';
 import { AuthGuard } from '@nestjs/passport';
 import { BorneService } from '../shared/services/borne.service';
-import { Borne } from '../shared/interfaces/borne.interface';
 import { OffersService } from '../shared/services/offers.service';
 import { Offer } from '../shared/interfaces/offers.interface';
 import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
@@ -61,24 +62,6 @@ export class ClientController {
   create(@Body() createClientDto: CreateClientDto): Promise<Client> {
     return this.clientsService.create(createClientDto);
   }
-  // @ApiOperation({ title: 'Delete borne' })
-  // @ApiResponse({ status: 201, description: 'The borne has been successfully deleted.' })
-  // @ApiResponse({ status: 403, description: 'Forbidden.' })
-  // @Delete(':id')
-  // async delete(@Param('id') idBorne: string) {
-  //   const clients = await this.clientsService.findClientByBorne(idBorne);
-  //   const borne = await this.borneService.delete(idBorne);
-
-  //   const promises = [];
-
-  //   // tslint:disable-next-line:no-increment-decrement
-  //   for (let i = 0; i < clients.length; i++) {
-  //     clients[i].bornes.remove(borne);
-  //     promises.push(clients[i].save());
-  //   }
-
-  //   return Promise.all(promises);
-  // }
 
   /**
    * Delete client by Id
@@ -88,15 +71,11 @@ export class ClientController {
   @ApiResponse({ status: 201, description: 'The client has been successfully deleted.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':id')
-  async delete(@Param('id') idClient: string){
-    await this.clientsService.delete(idClient);
-    const bornes = await this.borneService.findBorneByClient(idClient);
-    const promises = [];
-
-    for (let i = 0; i < bornes.length; i++) {
-      bornes[i].client.remove();
-      promises.push(bornes[i].save());
-    }
+  async delete(@Param('id') idClient: string) {
+    const client = await this.clientsService.delete(idClient);
+    const promises = client.bornes.map(borne => {
+      return this.borneService.deleteClient(borne._id, idClient);
+    });
     return Promise.all(promises);
   }
 
@@ -114,35 +93,6 @@ export class ClientController {
   }
 
   /**
-   * Associate client at a borne
-   * @param idClient
-   * @param idBorne
-   */
-  @ApiOperation({ title: 'Associate borne at client' })
-  @ApiResponse({ status: 201, description: 'The associate client has been successfully.' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @Put(':idClient/bornes/:idBorne')
-  async createBorne(@Param('idClient') idClient: string,
-                    @Param('idBorne') idBorne: string): Promise<Client> {
-    const client: Client = await this.clientsService.findOne(idClient);
-    const borne: Borne = await this.borneService.findOne(idBorne);
-
-    const tab = [];
-    // tslint:disable-next-line:no-increment-decrement
-    for (let i = 0; i < client.bornes.length; i++) {
-      tab.push(client.bornes[i]._id);
-    }
-
-    const result = tab.filter(client => client === borne._id.toString());
-    if (!result.length) {
-      client.bornes.push(borne);
-      await client.save();
-      return client;
-    }
-    throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
-  }
-
-  /**
    * Associate client at a offer
    * @param idClient
    * @param idOffer
@@ -152,23 +102,12 @@ export class ClientController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':idClient/offer/:idOffer')
   async createOffer(@Param('idClient') idClient: string,
-                    @Param('idOffer') idOffer: string): Promise < Client > {
-    const client: Client = await this.clientsService.findOne(idClient);
+    @Param('idOffer') idOffer: string): Promise<Client> {
+    if (await this.clientsService.hasOffer(idOffer, idClient)) {
+      throw new BadRequestException();
+    }
     const offer: Offer = await this.offerService.findOne(idOffer);
-
-    const tab = [];
-    // tslint:disable-next-line:no-increment-decrement
-    for (let i = 0; i < client.offer.length; i++) {
-      tab.push(client.offer[i]._id.toString());
-    }
-
-    const result = tab.filter(borne => borne === offer._id.toString());
-    if (!result.length) {
-      client.offer.push(offer);
-      await client.save();
-      return client;
-    }
-    throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
+    return this.clientsService.addOffer(idClient, offer);
   }
 
   /**
@@ -181,12 +120,12 @@ export class ClientController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':idClient/bornes/:idBorne')
   async deleteBorne(@Param('idClient') idClient: string,
-                    @Param('idBorne') idBorne: string): Promise<Client> {
+    @Param('idBorne') idBorne: string): Promise<Client> {
     return this.clientsService.deleteBorne(idClient, idBorne);
   }
   @Delete(':idClient/offer/:idOffer')
   async deleteOffer(@Param('idClient') idClient: string,
-                    @Param('idOffer') idOffer: string): Promise<Client> {
+    @Param('idOffer') idOffer: string): Promise<Client> {
     return this.clientsService.deleteOffer(idClient, idOffer);
   }
 
