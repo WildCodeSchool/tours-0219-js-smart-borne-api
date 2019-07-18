@@ -56,6 +56,7 @@ class Address {
 export class CreateBorneDto {
   @IsNotEmpty()
   @ApiModelProperty() readonly numeroSerie: string;
+  @ApiModelProperty() readonly pseudo: string;
   @IsNotEmpty()
   @Type(() => Address)
   @ValidateNested()

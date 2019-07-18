@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface Offer extends Document {
-  surnom: String;
+  pseudo: String;
   client: String;
   remise: String;
   contrat: {

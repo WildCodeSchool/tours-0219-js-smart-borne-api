@@ -4,6 +4,7 @@ import { Client } from './client.interface';
 
 export interface Borne extends Document {
   numeroSerie: String;
+  pseudo: String;
   address: {
     numero: String,
     rue: String,
