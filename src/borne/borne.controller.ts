@@ -97,10 +97,10 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':idBorne/client/:idClient')
   async createClient(@Param('idClient') idClient: string,
-                     @Param('idBorne') idBorne: string): Promise<Borne> {
+    @Param('idBorne') idBorne: string): Promise<Borne> {
 
     if (await this.borneService.hasClient(idBorne, idClient)
-       || await this.clientsService.hasBorne(idBorne, idClient)) {
+      || await this.clientsService.hasBorne(idBorne, idClient)) {
       throw new BadRequestException();
     }
 
@@ -121,21 +121,12 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':idBorne/offer/:idOffer')
   async createOffer(@Param('idOffer') idOffer: string,
-                    @Param('idBorne') idBorne: string): Promise<Borne> {
-    const borne: Borne = await this.borneService.findOne(idBorne);
-    const offers: Offer = await this.offerService.findOne(idOffer);
-
-    const tab = [];
-    // tslint:disable-next-line:no-increment-decrement
-    for (let i = 0; i < borne.offers.length; i++) {
-      tab.push(borne.offers[i]._id.toString());
+    @Param('idBorne') idBorne: string): Promise<Borne> {
+    if (await this.borneService.hasOffer(idBorne, idOffer)) {
+      throw new BadRequestException();
     }
-
-    const result = tab.filter(borne => borne === offers._id.toString());
-    if (!result.length) {
-      return this.borneService.addOffer(idBorne, offers);
-    }
-    throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
+    const offer: Offer = await this.offerService.findOne(idOffer);
+    return this.borneService.addOffer(idBorne, offer);
   }
 
   /**
@@ -147,7 +138,7 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':idBorne/offer/:idOffer')
   async deleteOffer(@Param('idBorne') idBorne: string,
-                    @Param('idOffer') idOffer: string): Promise<Borne> {
+    @Param('idOffer') idOffer: string): Promise<Borne> {
     return this.borneService.deleteOffer(idBorne, idOffer);
   }
 
@@ -170,7 +161,7 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':idBorne/clients/:idClient')
   async deleteClient(@Param('idBorne') idBorne: string,
-                     @Param('idClient') idClient: string): Promise<any> {
+    @Param('idClient') idClient: string): Promise<any> {
     await this.borneService.deleteClient(idBorne, idClient);
     return Promise.resolve();
   }

@@ -71,6 +71,14 @@ export class BorneService {
     }
     return false;
   }
+
+  async hasOffer(idBorne: string, idOffer: string): Promise<Boolean> {
+    const borne = await this.borneModel.findById(idBorne);
+    if (borne.offers.id(idOffer)) {
+      return true;
+    }
+    return false;
+  }
   /**
   *
   * @param idBorne
@@ -94,6 +102,14 @@ export class BorneService {
     const borne = await this.borneModel.findByIdAndUpdate(id, borneData);
     if (!borne) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    const client = await this.clientModel.findOne({'bornes._id':  new ObjectId(id) });
+
+    if (client) {
+      const borne = client.bornes.id(id);
+      borne.set(borneData);
+      await client.save();
     }
     return borne;
   }

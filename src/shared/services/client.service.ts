@@ -47,9 +47,27 @@ export class ClientService {
     return client;
   }
 
+  async addOffer(idClient: string, offer: Offer): Promise<Client> {
+    const client = await this.findOne(idClient);
+    if (!client) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+    client.offer.push(offer);
+    await client.save();
+    return client;
+  }
+
   async hasBorne(idBorne: string, idClient: string): Promise<Boolean> {
     const client: Client = await this.findOne(idClient);
     if (client.bornes.id(idBorne)) {
+      return true;
+    }
+    return false;
+  }
+
+  async hasOffer(idOffer: string, idClient: string): Promise<Boolean> {
+    const client: Client = await this.findOne(idClient);
+    if (client.offer.id(idOffer)) {
       return true;
     }
     return false;
