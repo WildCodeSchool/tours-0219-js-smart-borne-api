@@ -2,6 +2,7 @@ import { ApiModelProperty } from '@nestjs/swagger';
 
 export class UpdateBorneDto {
   @ApiModelProperty() readonly numeroSerie: String;
+  @ApiModelProperty() readonly pseudo: String;
   @ApiModelProperty() readonly address: {
     readonly numero: String,
     readonly rue: String,

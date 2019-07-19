@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { borneSchema } from './borne.schema';
 import { offerSchema } from './offers.schema';
 
-export const clientSchema = new mongoose.Schema({
+export const client = {
   name: String,
   siret: String,
   raisonSocial: String,
@@ -32,6 +32,16 @@ export const clientSchema = new mongoose.Schema({
   },
   plastiqueTotal: Number,
   cannetteTotal: Number,
-  bornes: [borneSchema],
   offer: [offerSchema],
-});
+
+};
+
+export const clientSchema = new mongoose.Schema(
+  {
+    ...client,
+    bornes: [borneSchema],
+
+  },
+  {
+    versionKey: false,
+  });

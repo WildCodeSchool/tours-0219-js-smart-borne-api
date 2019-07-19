@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateOfferDto } from '../../offers/DTO/create-offer.dto';
 import { ObjectId } from 'mongodb';
-import {Client} from "../interfaces/client.interface";
+import {UpdateOfferDto} from "../../offers/DTO/update-offer.dto";
 
 @Injectable()
 export class OffersService {
@@ -37,7 +37,7 @@ export class OffersService {
    */
   async create(id: string, offerData: CreateOfferDto): Promise<Offer> {
     const newOffer = new this.offerModel(offerData);
-    const result = await this.offerModel.find({ surnom: newOffer.surnom });
+    const result = await this.offerModel.find({ pseudo: newOffer.pseudo });
     if (result.length) {
       throw new HttpException('Not found', HttpStatus.BAD_REQUEST);
     } else {
@@ -60,7 +60,7 @@ export class OffersService {
    * @param id
    * @param offerData
    */
-  async update(id: string, offerData: CreateOfferDto): Promise<Offer> {
+  async update(id: string, offerData: UpdateOfferDto): Promise<Offer> {
     const offerUpdate = await this.offerModel.findByIdAndUpdate(id, offerData, { new: true });
     if (!offerData) {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
@@ -68,13 +68,4 @@ export class OffersService {
     return offerUpdate;
   }
 
-  /**
-   * @param query
-   */
-  async queryOffer(query: string): Promise<Offer[]> {
-    if (query && query.trim().length > 0) {
-      return this.offerModel.find({ client: { $regex: `.*${query}.*`  } });
-    }
-    return this.offerModel.find();
-  }
 }

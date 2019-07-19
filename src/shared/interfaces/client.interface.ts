@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { Borne } from './borne.interface';
-import { Offer } from './offers.interface'
+import { Offer } from './offers.interface';
 
 export interface Client extends Document {
   name: String;

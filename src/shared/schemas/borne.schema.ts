@@ -1,9 +1,11 @@
 import * as mongoose from 'mongoose';
 import { offerSchema } from './offers.schema';
+import { client } from './client.schema';
 
 export const borneSchema = new mongoose.Schema(
   {
     numeroSerie: String,
+    pseudo: String,
     address: {
       numero: String,
       rue: String,
@@ -12,7 +14,6 @@ export const borneSchema = new mongoose.Schema(
     },
     dateInstallation: String,
     coupon: {
-      restant: Number,
       imprimer: Number,
     },
     plastique: {
@@ -33,6 +34,7 @@ export const borneSchema = new mongoose.Schema(
     styliseeClient: String,
     details: String,
     offers: [offerSchema],
+    client: { ...client },
   },
   {
     versionKey: false,

@@ -14,6 +14,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ClientService } from '../shared/services/client.service';
 import { BorneService } from '../shared/services/borne.service';
 import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
+import {UpdateOfferDto} from "./DTO/update-offer.dto";
 
 @UseGuards(AuthGuard('jwt'))
 @ApiUseTags('offer')
@@ -100,17 +101,8 @@ export class OffersController {
   @ApiResponse({ status: 201, description: 'The offer has been successfully updated.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':id')
-  async update(@Body() createOfferDto: CreateOfferDto, @Param('id') id): Promise<Offer> {
+  async update(@Body() createOfferDto: UpdateOfferDto, @Param('id') id): Promise<Offer> {
     return this.offersService.update(id, createOfferDto);
   }
 
-  /**
-   * @param query
-   */
-  @ApiOperation({ title: 'Get query offer' })
-  @ApiResponse({ status: 200, description: 'Return offer query' })
-  @Get('search/:query')
-  async queryOffer(@Param('query') query: string): Promise<Offer[]> {
-    return this.offersService.queryOffer(query);
-  }
 }

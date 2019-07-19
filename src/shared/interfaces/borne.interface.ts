@@ -1,8 +1,10 @@
 import { Document, Types } from 'mongoose';
 import { Offer } from './offers.interface';
+import { Client } from './client.interface';
 
 export interface Borne extends Document {
   numeroSerie: String;
+  pseudo: String;
   address: {
     numero: String,
     rue: String,
@@ -11,7 +13,6 @@ export interface Borne extends Document {
   };
   dateInstallation: String;
   coupon: {
-    restant: Number,
     imprimer: Number,
   };
   plastique: {
@@ -31,4 +32,6 @@ export interface Borne extends Document {
   styliseeClient: String;
   details: String;
   offers: Types.DocumentArray<Offer>;
+  client: Client;
+
 }

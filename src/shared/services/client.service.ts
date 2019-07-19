@@ -37,6 +37,42 @@ export class ClientService {
     return client;
   }
 
+  async addBorne(idClient: string, borne: Borne): Promise<Client> {
+    const client = await this.findOne(idClient);
+    if (!client) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+    client.bornes.push(borne);
+    await client.save();
+    return client;
+  }
+
+  async addOffer(idClient: string, offer: Offer): Promise<Client> {
+    const client = await this.findOne(idClient);
+    if (!client) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+    client.offer.push(offer);
+    await client.save();
+    return client;
+  }
+
+  async hasBorne(idBorne: string, idClient: string): Promise<Boolean> {
+    const client: Client = await this.findOne(idClient);
+    if (client.bornes.id(idBorne)) {
+      return true;
+    }
+    return false;
+  }
+
+  async hasOffer(idOffer: string, idClient: string): Promise<Boolean> {
+    const client: Client = await this.findOne(idClient);
+    if (client.offer.id(idOffer)) {
+      return true;
+    }
+    return false;
+  }
+
   /**
    * @param client
    */
@@ -84,6 +120,8 @@ export class ClientService {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     client.bornes.remove(borne);
+    borne.set('client', null);
+    await borne.save();
     await client.save();
     return client;
   }
@@ -107,11 +145,29 @@ export class ClientService {
    * @param idBorne
    */
   async findClientByBorne(idBorne: string): Promise<Client[]> {
-    const clients : Client[] = await this.clientModel.find({ 'bornes._id': idBorne });
+    const clients: Client[] = await this.clientModel.find({ 'bornes._id': idBorne });
     if (!clients) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     return clients;
+  }
+
+  /**
+   *
+   * @param idBorne
+   */
+  async removeBornes(idBorne: string, borne: Borne): Promise<Client[]> {
+    const clients = await this.findClientByBorne(idBorne);
+
+    const promises = [];
+
+    // tslint:disable-next-line:no-increment-decrement
+    for (let i = 0; i < clients.length; i++) {
+      clients[i].bornes.remove(borne);
+      promises.push(clients[i].save());
+    }
+
+    return Promise.all(promises);
   }
 
   /**
@@ -130,7 +186,7 @@ export class ClientService {
    */
   async queryClient(query: string): Promise<Client[]> {
     if (query && query.trim().length > 0) {
-      return this.clientModel.find({ name: { $regex: `.*${query}.*`  } });
+      return this.clientModel.find({ name: { $regex: `.*${query}.*` } });
     }
     return this.clientModel.find();
   }
