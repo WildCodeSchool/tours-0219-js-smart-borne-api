@@ -1,7 +1,7 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
-import { User } from '../user/interfaces/user.interface';
+import { UserService } from '../shared/services/user.service';
+import { User } from '../shared/interfaces/user.interface';
 import { LoginDto } from './dto/login.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 
@@ -12,6 +12,9 @@ export class AuthService {
     ) {
   }
 
+  /**
+   * @param user
+   */
   async authenticate(user: LoginDto): Promise<any> {
 
     const users = await this.userService.findByEmail(user.email);
@@ -28,7 +31,10 @@ export class AuthService {
         throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
       }
 
-      const users: JwtPayload = { email: userData.email, password: userData.password };
+      const users: JwtPayload = {
+        email: userData.email,
+        password: userData.password,
+        role: userData.role };
       const accessToken = this.jwtService.sign(users);
 
       return {
@@ -39,6 +45,9 @@ export class AuthService {
 
   }
 
+  /**
+   * @param payload
+   */
   async validateUser(payload: JwtPayload): Promise<User> {
     return await this.userService.findByUser(payload.email, payload.password);
   }
