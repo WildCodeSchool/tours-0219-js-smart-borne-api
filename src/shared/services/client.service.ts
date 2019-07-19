@@ -120,6 +120,8 @@ export class ClientService {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
     client.bornes.remove(borne);
+    borne.set('client', null);
+    await borne.save();
     await client.save();
     return client;
   }
@@ -151,8 +153,8 @@ export class ClientService {
   }
 
   /**
-   * 
-   * @param idBorne 
+   *
+   * @param idBorne
    */
   async removeBornes(idBorne: string, borne: Borne): Promise<Client[]> {
     const clients = await this.findClientByBorne(idBorne);
@@ -167,7 +169,6 @@ export class ClientService {
 
     return Promise.all(promises);
   }
-
 
   /**
    * @param idOffer

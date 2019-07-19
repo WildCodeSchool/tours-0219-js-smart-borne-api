@@ -97,14 +97,17 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':idBorne/client/:idClient')
   async createClient(@Param('idClient') idClient: string,
-    @Param('idBorne') idBorne: string): Promise<Borne> {
+                     @Param('idBorne') idBorne: string): Promise<Borne> {
 
     if (await this.borneService.hasClient(idBorne, idClient)
       || await this.clientsService.hasBorne(idBorne, idClient)) {
       throw new BadRequestException();
     }
-
     const borne: Borne = await this.borneService.findOne(idBorne);
+     if (borne.client) {
+       throw new BadRequestException();
+     }
+
     const client: Client = await this.clientsService.findOne(idClient);
     await this.clientsService.addBorne(idClient, borne);
     return await this.borneService.addClient(idBorne, client);
@@ -121,7 +124,7 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':idBorne/offer/:idOffer')
   async createOffer(@Param('idOffer') idOffer: string,
-    @Param('idBorne') idBorne: string): Promise<Borne> {
+                    @Param('idBorne') idBorne: string): Promise<Borne> {
     if (await this.borneService.hasOffer(idBorne, idOffer)) {
       throw new BadRequestException();
     }
@@ -138,7 +141,7 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':idBorne/offer/:idOffer')
   async deleteOffer(@Param('idBorne') idBorne: string,
-    @Param('idOffer') idOffer: string): Promise<Borne> {
+                    @Param('idOffer') idOffer: string): Promise<Borne> {
     return this.borneService.deleteOffer(idBorne, idOffer);
   }
 
@@ -161,7 +164,7 @@ export class BorneController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':idBorne/clients/:idClient')
   async deleteClient(@Param('idBorne') idBorne: string,
-    @Param('idClient') idClient: string): Promise<any> {
+                     @Param('idClient') idClient: string): Promise<any> {
     await this.borneService.deleteClient(idBorne, idClient);
     return Promise.resolve();
   }
