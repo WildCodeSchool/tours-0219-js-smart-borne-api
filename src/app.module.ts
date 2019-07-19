@@ -8,7 +8,6 @@ import { UserModule } from './user/user.module';
 import { ProfileModule } from './profile/profile.module';
 import { DataController } from './data/data.controller';
 
-
 require('dotenv').config();
 
 @Module({
