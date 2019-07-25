@@ -10,8 +10,6 @@ RUN yarn build
 FROM node:10.15.3
 WORKDIR /workdir
 ENV NODE_ENV production
-ENV MONGO_URI mongodb://db/westendorp
-COPY --from=builder /workdir/views /workdir/views
 COPY --from=builder /workdir/dist /workdir
 COPY --from=builder /workdir/package.json /workdir
 COPY --from=builder /workdir/yarn.lock /workdir
