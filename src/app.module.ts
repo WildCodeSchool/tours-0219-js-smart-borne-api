@@ -6,7 +6,7 @@ import { BorneModule } from './borne/borne.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ProfileModule } from './profile/profile.module';
-import { DataController } from './data/data.controller';
+import { DataModule } from './data/data.module';
 
 require('dotenv').config();
 
@@ -21,8 +21,9 @@ require('dotenv').config();
     AuthModule,
     UserModule,
     ProfileModule,
+    DataModule
   ],
-  controllers: [DataController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {
