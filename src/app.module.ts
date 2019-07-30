@@ -13,7 +13,7 @@ require('dotenv').config();
 @Module({
   imports: [
     MongooseModule.forRoot(
-        process.env.MONGOO,
+        process.env.DBURI,
         { useNewUrlParser: true, useFindAndModify: false }),
     BorneModule,
     ClientModule,
